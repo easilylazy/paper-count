@@ -1,11 +1,8 @@
 // filename: utils.h
+#include<reg52.h>
 #define uchar unsigned char;
-uchar displayNum(int num){
-	// 一位一位变
-	int i;
-	for(i=1;;i*=10){
-	 	if(num/i==0){
-			break;
-	}
- 	
-}
+void sleep(unsigned int xms);
+void resetT0();
+
+void processInput(unsigned char a);
+uchar displayNum(int num);
