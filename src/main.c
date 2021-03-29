@@ -1,10 +1,11 @@
 #include <reg52.h>
 # include "include/utils.h"
+# define uint unsigned int
 uchar flag,a,i;
 unsigned int beat;
 
 
-//sbit led1=P1^0 ;
+sbit led1=P1^0 ;
 sbit watch=P1^2;
 sbit input=P3^7;
 sbit ticker=P0^0;	
@@ -44,12 +45,13 @@ void watchChange(){
 
 }
 void main(void){
-	unsigned int last_beat=0;
+	unsigned int last_beat=0,seconds=0;
+	uint period =5;
 	init();
 	flag=0;
 	
 	while(1){
-		//led1=0;
+		led1=0;
 		watchChange();
 		if (flag==1){
 			ES=0;
@@ -65,14 +67,24 @@ void main(void){
 		}
 		if(last_beat!=beat&&beat%20==1){
 			ES=0;
-		 	if(beat%1200==1){
-				SBUF='&';
+			seconds++;
+			if (seconds%period==1){
+			 	SBUF=':';
 				while(!TI);
 				TI=0;
+				output_int(TH0);
+				output_int(TL0);
+				resetT0();
 			}
-			SBUF='*';
-			while(!TI);
-			TI=0;
+			
+//		 	if(beat%1200==1){
+//				SBUF='&';
+//				while(!TI);
+//				TI=0;
+//			}
+//			SBUF='*';
+//			while(!TI);
+//			TI=0;
 			ES=1;
 			last_beat=beat;
 		}

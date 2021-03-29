@@ -26,16 +26,10 @@ int i;
 				}
 				resetT0();
 				
-			}  else if (a=='d'){	
-				unsigned char high_byte,low_byte;
-				high_byte=TL0%256;
-				low_byte=TL0/256;			
-				SBUF=high_byte;
-				while(!TI);
-				TI=0;
-				SBUF=low_byte;
-				while(!TI);
-				TI=0;
+			}  else if (a=='d'){
+				output_int(TH0);
+				output_int(TL0);	
+
 				
 			}else {
 				for(i=0;i<6;i++){
@@ -44,6 +38,13 @@ int i;
 					TI=0;
 				}			
 			}
+}
+void output_int(unsigned int num){
+					
+				SBUF=num;
+				while(!TI);
+				TI=0;
+
 }
 uchar displayNum(int num){
 	// 一位一位变

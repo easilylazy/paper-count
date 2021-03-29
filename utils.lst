@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   UTILS                                                                 03/29/2021 22:02:27 PAGE 1   
+C51 COMPILER V9.00   UTILS                                                                 03/29/2021 23:10:01 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE UTILS
@@ -36,42 +36,43 @@ line level    source
   26   3                                      }
   27   2                                      resetT0();
   28   2                                      
-  29   2                              }  else if (a=='d'){    
-  30   2                                      unsigned char high_byte,low_byte;
-  31   2                                      high_byte=TL0%256;
-  32   2                                      low_byte=TL0/256;                       
-  33   2                                      SBUF=high_byte;
-  34   2                                      while(!TI);
-  35   2                                      TI=0;
-  36   2                                      SBUF=low_byte;
-  37   2                                      while(!TI);
-  38   2                                      TI=0;
-  39   2                                      
-  40   2                              }else {
-  41   2                                      for(i=0;i<6;i++){
-  42   3                                              SBUF=table[i];
-  43   3                                              while(!TI);
-  44   3                                              TI=0;
-  45   3                                      }                       
-  46   2                              }
-  47   1      }
-  48          uchar displayNum(int num){
-  49   1              // 一位一位变
-  50   1              int i;
-  51   1              for(i=1;;i*=10){
-  52   2                      if(num/i==0){
-  53   3                              break;
-  54   3                      }
-C51 COMPILER V9.00   UTILS                                                                 03/29/2021 22:02:27 PAGE 2   
+  29   2                              }  else if (a=='d'){
+  30   2                                      output_int(TH0);
+  31   2                                      output_int(TL0);        
+  32   2      
+  33   2                                      
+  34   2                              }else {
+  35   2                                      for(i=0;i<6;i++){
+  36   3                                              SBUF=table[i];
+  37   3                                              while(!TI);
+  38   3                                              TI=0;
+  39   3                                      }                       
+  40   2                              }
+  41   1      }
+  42          void output_int(unsigned int num){
+  43   1                                              
+  44   1                                      SBUF=num;
+  45   1                                      while(!TI);
+  46   1                                      TI=0;
+  47   1      
+  48   1      }
+  49          uchar displayNum(int num){
+  50   1              // 一位一位变
+  51   1              int i;
+  52   1              for(i=1;;i*=10){
+  53   2                      if(num/i==0){
+  54   3                              break;
+C51 COMPILER V9.00   UTILS                                                                 03/29/2021 23:10:01 PAGE 2   
 
-  55   2              }
-  56   1              return 'z';     
-  57   1      }
-*** WARNING C316 IN LINE 57 OF src\utils.c: unterminated conditionals
+  55   3                      }
+  56   2              }
+  57   1              return 'z';     
+  58   1      }
+*** WARNING C316 IN LINE 58 OF src\utils.c: unterminated conditionals
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    185    ----
+   CODE SIZE        =    194    ----
    CONSTANT SIZE    =     13    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

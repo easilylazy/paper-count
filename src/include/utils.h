@@ -9,4 +9,5 @@ void sleep(unsigned int xms);
 void resetT0();
 
 void processInput(unsigned char a);
+void 	output_int(unsigned int num);
 uchar displayNum(int num);
