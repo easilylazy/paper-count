@@ -1,6 +1,6 @@
 # paper-count
 
-##现在完成阶段一：计数器
+## 完成阶段一：计数器[basic-count](https://github.com/easilylazy/paper-count/tree/basic-count)
 
 ### 实现原理
 
