@@ -8,5 +8,5 @@ void predict();
 void update(float Z);
 // ≤‚ ‘“ª≤®
 void test_filter();
-
+float getXn();
 #endif

@@ -39,8 +39,8 @@ void output_int(unsigned int num){
 
 }
 unsigned char* int2string(int num){
-	unsigned char num_str[10],this,last;
-	// 一位一位变
+	unsigned char num_str[10],this,last,temp;
+	// 一位一位遍历，现在是倒序
 	int i,b=0;
 	this=num;
 	for(i=1;;i*=10){ 		
@@ -53,7 +53,12 @@ unsigned char* int2string(int num){
 		}
 		this=last;
 	}
-	
+	// reverse
+	for(i=0;i<b/2;i++){
+		temp=num_str[i];
+		num_str[i]=num_str[b-i-1];
+		num_str[b-i-1]=temp;
+	}
 	return &num_str; 	
 }
 void output_char(unsigned char ch){
