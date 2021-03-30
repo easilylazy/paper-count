@@ -4,73 +4,17 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 C:\Users\cascara\Desktop\LearningMaterials\2021spring\circuit\Ö½ÕÅ¼ÆÊý\project\paperCnt.uvproj
-Project File Date:  03/29/2021
+Project File Date:  03/30/2021
 
 <h2>Output:</h2>
 Build target 'Target 1'
+assembling STARTUP.A51...
 compiling main.c...
-src\main.c(108): warning C316: unterminated conditionals
+compiling utils.c...
+compiling kalman.c...
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DISPLAYNUM?UTILS
-*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
-    SYMBOL:  TEST_FILTER
-    MODULE:  .\output\main.obj (MAIN)
-*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
-    SYMBOL:  TEST_FILTER
-    MODULE:  .\output\main.obj (MAIN)
-    ADDRESS: 08B4H
-Program Size: data=25.0 xdata=0 code=635
+    SEGMENT: ?PR?TEST_FILTER?KALMAN
+Program Size: data=87.0 xdata=0 code=2259
 creating hex file from ".\output\paperCnt"...
-".\output\paperCnt" - 0 Error(s), 4 Warning(s).
-Build target 'Target 1'
-compiling kalman.c...
-SRC\KALMAN.C(24): error C163: 'measure': unknown array size
-SRC\KALMAN.C(24): error C141: syntax error near '{'
-src\kalman.c(33): warning C316: unterminated conditionals
-Target not created
-Build target 'Target 1'
-compiling kalman.c...
-SRC\KALMAN.C(24): error C141: syntax error near '{'
-src\kalman.c(33): warning C316: unterminated conditionals
-Target not created
-Build target 'Target 1'
-compiling kalman.c...
-SRC\KALMAN.C(24): error C141: syntax error near '{'
-src\kalman.c(33): warning C316: unterminated conditionals
-Target not created
-Build target 'Target 1'
-compiling kalman.c...
-SRC\KALMAN.C(23): error C141: syntax error near '{'
-src\kalman.c(32): warning C316: unterminated conditionals
-Target not created
-Build target 'Target 1'
-compiling kalman.c...
-SRC\KALMAN.C(25): warning C206: 'init': missing function-prototype
-src\kalman.c(32): warning C316: unterminated conditionals
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DISPLAYNUM?UTILS
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?INIT_FILTER?KALMAN
-Program Size: data=73.0 xdata=0 code=1913
-creating hex file from ".\output\paperCnt"...
-".\output\paperCnt" - 0 Error(s), 4 Warning(s).
-Build target 'Target 1'
-compiling kalman.c...
-src\kalman.c(32): warning C316: unterminated conditionals
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DISPLAYNUM?UTILS
-Program Size: data=73.0 xdata=0 code=1913
-creating hex file from ".\output\paperCnt"...
-".\output\paperCnt" - 0 Error(s), 2 Warning(s).
-Build target 'Target 1'
-compiling kalman.c...
-src\kalman.c(34): warning C316: unterminated conditionals
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DISPLAYNUM?UTILS
-Program Size: data=73.0 xdata=0 code=1923
-creating hex file from ".\output\paperCnt"...
-".\output\paperCnt" - 0 Error(s), 2 Warning(s).
+".\output\paperCnt" - 0 Error(s), 1 Warning(s).

@@ -361,6 +361,11 @@
               <FileType>1</FileType>
               <FilePath>.\src\utils.c</FilePath>
             </File>
+            <File>
+              <FileName>kalman.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\kalman.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
