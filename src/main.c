@@ -47,9 +47,11 @@ void watchChange(){
 }
 void main(void){
 	unsigned int last_beat=0,seconds=0;
-	
+	unsigned int cnt_sum;//,foo=0X0001,bar=0X0002;
+	unsigned int period =5;
 
-	uint period =5;
+	
+	
 	init();
 	flag=0;
 	test_filter();	
@@ -60,11 +62,7 @@ void main(void){
 		if (flag==1){
 			ES=0;
 			processInput(a);
-			
-			SBUF=a;
-			while(!TI);
-			TI=0;
-			
+						
 			ES=1;
 			flag=0;
 
@@ -76,19 +74,11 @@ void main(void){
 			 	SBUF=':';
 				while(!TI);
 				TI=0;
-				output_int(TH0);
-				output_int(TL0);
+				cnt_sum=(TH0<<8)+TL0;
+				output_int(cnt_sum);
+				
 				resetT0();
 			}
-			
-//		 	if(beat%1200==1){
-//				SBUF='&';
-//				while(!TI);
-//				TI=0;
-//			}
-//			SBUF='*';
-//			while(!TI);
-//			TI=0;
 			ES=1;
 			last_beat=beat;
 		}

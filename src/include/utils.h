@@ -9,5 +9,9 @@ void sleep(unsigned int xms);
 void resetT0();
 
 void processInput(unsigned char a);
-void 	output_int(unsigned int num);
-uchar* int2string(int num);
+void output_int(unsigned int num);
+void output_char(unsigned char ch);
+void output_string(unsigned char* str);
+unsigned char* int2string(int num);
+
+#endif

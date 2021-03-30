@@ -13,48 +13,32 @@ void resetT0(){
 	TH0=0X00;
 	TL0=0X00;
 }
-void processInput(unsigned char a){
-unsigned char code table[]="Got it";   
-unsigned char code reset[]="RESET";
-int i;
-			if (a=='r'){				
-				for(i=0;i<5;i++){
-					SBUF=reset[i];
-					while(!TI);
-					TI=0;
-					
-				}
-				resetT0();
-				
-			}  else if (a=='d'){
-				output_int(TH0);
-				output_int(TL0);	
+void processInput(unsigned char a){  
+	if (a=='r'){				
+		output_string("RESET ");
+		resetT0();
+		
+	}  else if (a=='d'){
+		output_int(TH0);
+		output_int(TL0);	
 
-				
-			}else {
-				for(i=0;i<6;i++){
-					SBUF=table[i];
-					while(!TI);
-					TI=0;
-				}			
-			}
+		
+	}else {
+		output_string("got it! ");	
+		SBUF=a;
+		while(!TI);
+		TI=0;		
+	}
 }
 void output_int(unsigned int num){				
 	unsigned char *result_pstr;
 	result_pstr=int2string(num);
-	for(;*result_pstr!='\0';result_pstr++){
-	   
-	   SBUF=*result_pstr;
-       while(!TI);
-	   TI=0;
-	}
-	SBUF='\n';
-   	while(!TI);
-   	TI=0;					
+	output_string(result_pstr);
+	output_char(' ');					
 				
 
 }
-uchar* int2string(int num){
+unsigned char* int2string(int num){
 	unsigned char num_str[10],this,last;
 	// 一位一位变
 	int i,b=0;
@@ -71,4 +55,19 @@ uchar* int2string(int num){
 	}
 	
 	return &num_str; 	
+}
+void output_char(unsigned char ch){
+	SBUF=ch;
+	while(!TI);
+	TI=0;
+
+}
+void output_string(unsigned char* pstr){
+	for(;*pstr!='\0';pstr++){
+	   
+	   SBUF=*pstr;
+       while(!TI);
+	   TI=0;
+	}
+	return;
 }
