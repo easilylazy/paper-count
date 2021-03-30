@@ -1,5 +1,6 @@
-#include <reg52.h>
+# include <reg52.h>
 # include "include/utils.h"
+# include "include/kalman.h" 
 # define uint unsigned int
 uchar flag,a,i;
 unsigned int beat;
@@ -49,7 +50,7 @@ void main(void){
 	uint period =5;
 	init();
 	flag=0;
-	
+	test_filter();
 	while(1){
 		led1=0;
 		watchChange();

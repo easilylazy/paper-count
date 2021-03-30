@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   MAIN                                                                  03/29/2021 23:10:01 PAGE 1   
+C51 COMPILER V9.00   MAIN                                                                  03/30/2021 10:13:03 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
@@ -8,126 +8,127 @@ COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE src\main.c BROWSE DEBUG OBJECTEXTEN
 
 line level    source
 
-   1          #include <reg52.h>
+   1          # include <reg52.h>
    2          # include "include/utils.h"
-   3          # define uint unsigned int
-   4          uchar flag,a,i;
-   5          unsigned int beat;
-   6          
+   3          # include "include/kalman.h" 
+   4          # define uint unsigned int
+   5          uchar flag,a,i;
+   6          unsigned int beat;
    7          
-   8          sbit led1=P1^0 ;
-   9          sbit watch=P1^2;
-  10          sbit input=P3^7;
-  11          sbit ticker=P0^0;       
-  12          void init(){
-  13   1              TMOD=0X25;               //T1 TIMER T0 COUNT
-  14   1              TH1=0XFD;
-  15   1              TL1=0XFD;
-  16   1      
-  17   1              RCAP2H=0X004C;
-  18   1              RCAP2L=0X0000;
-  19   1              resetT0();
-  20   1              TR2=1;
-  21   1              TR1=1;
-  22   1              TR0=1;
-  23   1              REN=1;
-  24   1              SM0=0;
-  25   1              SM1=1;
-  26   1              EA=1;
-  27   1              ES=1;
-  28   1      
-  29   1              ET2=1;
-  30   1      
-  31   1      }
-  32          
+   8          
+   9          sbit led1=P1^0 ;
+  10          sbit watch=P1^2;
+  11          sbit input=P3^7;
+  12          sbit ticker=P0^0;       
+  13          void init(){
+  14   1              TMOD=0X25;               //T1 TIMER T0 COUNT
+  15   1              TH1=0XFD;
+  16   1              TL1=0XFD;
+  17   1      
+  18   1              RCAP2H=0X004C;
+  19   1              RCAP2L=0X0000;
+  20   1              resetT0();
+  21   1              TR2=1;
+  22   1              TR1=1;
+  23   1              TR0=1;
+  24   1              REN=1;
+  25   1              SM0=0;
+  26   1              SM1=1;
+  27   1              EA=1;
+  28   1              ES=1;
+  29   1      
+  30   1              ET2=1;
+  31   1      
+  32   1      }
   33          
   34          
-  35          void watchChange(){
-  36   1              
-  37   1              if(input==0){
-  38   2                       sleep(10);
-  39   2                       if(input==0){
-  40   3                              watch=~watch;
-  41   3                              while(!input); // wait for key 
-  42   3                              watch=~watch;
-  43   3                       }      
-  44   2              }
-  45   1      
-  46   1      }
-  47          void main(void){
-  48   1              unsigned int last_beat=0,seconds=0;
-  49   1              uint period =5;
-  50   1              init();
-  51   1              flag=0;
-  52   1              
-  53   1              while(1){
-  54   2                      led1=0;
-C51 COMPILER V9.00   MAIN                                                                  03/29/2021 23:10:01 PAGE 2   
+  35          
+  36          void watchChange(){
+  37   1              
+  38   1              if(input==0){
+  39   2                       sleep(10);
+  40   2                       if(input==0){
+  41   3                              watch=~watch;
+  42   3                              while(!input); // wait for key 
+  43   3                              watch=~watch;
+  44   3                       }      
+  45   2              }
+  46   1      
+  47   1      }
+  48          void main(void){
+  49   1              unsigned int last_beat=0,seconds=0;
+  50   1              uint period =5;
+  51   1              init();
+  52   1              flag=0;
+  53   1              test_filter();
+  54   1              while(1){
+C51 COMPILER V9.00   MAIN                                                                  03/30/2021 10:13:03 PAGE 2   
 
-  55   2                      watchChange();
-  56   2                      if (flag==1){
-  57   3                              ES=0;
-  58   3                              processInput(a);
-  59   3                              
-  60   3                              SBUF=a;
-  61   3                              while(!TI);
-  62   3                              TI=0;
-  63   3                              
-  64   3                              ES=1;
-  65   3                              flag=0;
-  66   3      
-  67   3                      }
-  68   2                      if(last_beat!=beat&&beat%20==1){
-  69   3                              ES=0;
-  70   3                              seconds++;
-  71   3                              if (seconds%period==1){
-  72   4                                      SBUF=':';
-  73   4                                      while(!TI);
-  74   4                                      TI=0;
-  75   4                                      output_int(TH0);
-  76   4                                      output_int(TL0);
-  77   4                                      resetT0();
-  78   4                              }
-  79   3                              
-  80   3      //                      if(beat%1200==1){
-  81   3      //                              SBUF='&';
-  82   3      //                              while(!TI);
-  83   3      //                              TI=0;
-  84   3      //                      }
-  85   3      //                      SBUF='*';
-  86   3      //                      while(!TI);
-  87   3      //                      TI=0;
-  88   3                              ES=1;
-  89   3                              last_beat=beat;
-  90   3                      }
-  91   2      
-  92   2              }
-  93   1      }       
-  94          void refresh() interrupt 4{
-  95   1      
-  96   1              RI=0;
-  97   1              a=SBUF;
-  98   1              flag=1;
-  99   1                       
- 100   1      }       
- 101          
- 102          void timer_50ms() interrupt 5{
- 103   1      
- 104   1              TF2=0;
- 105   1              beat++;  
- 106   1      
- 107   1      }
-*** WARNING C316 IN LINE 107 OF src\main.c: unterminated conditionals
+  55   2                      led1=0;
+  56   2                      watchChange();
+  57   2                      if (flag==1){
+  58   3                              ES=0;
+  59   3                              processInput(a);
+  60   3                              
+  61   3                              SBUF=a;
+  62   3                              while(!TI);
+  63   3                              TI=0;
+  64   3                              
+  65   3                              ES=1;
+  66   3                              flag=0;
+  67   3      
+  68   3                      }
+  69   2                      if(last_beat!=beat&&beat%20==1){
+  70   3                              ES=0;
+  71   3                              seconds++;
+  72   3                              if (seconds%period==1){
+  73   4                                      SBUF=':';
+  74   4                                      while(!TI);
+  75   4                                      TI=0;
+  76   4                                      output_int(TH0);
+  77   4                                      output_int(TL0);
+  78   4                                      resetT0();
+  79   4                              }
+  80   3                              
+  81   3      //                      if(beat%1200==1){
+  82   3      //                              SBUF='&';
+  83   3      //                              while(!TI);
+  84   3      //                              TI=0;
+  85   3      //                      }
+  86   3      //                      SBUF='*';
+  87   3      //                      while(!TI);
+  88   3      //                      TI=0;
+  89   3                              ES=1;
+  90   3                              last_beat=beat;
+  91   3                      }
+  92   2      
+  93   2              }
+  94   1      }       
+  95          void refresh() interrupt 4{
+  96   1      
+  97   1              RI=0;
+  98   1              a=SBUF;
+  99   1              flag=1;
+ 100   1                       
+ 101   1      }       
+ 102          
+ 103          void timer_50ms() interrupt 5{
+ 104   1      
+ 105   1              TF2=0;
+ 106   1              beat++;  
+ 107   1      
+ 108   1      }
+*** WARNING C316 IN LINE 108 OF src\main.c: unterminated conditionals
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    247    ----
+   CODE SIZE        =    250    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      8       6
-C51 COMPILER V9.00   MAIN                                                                  03/29/2021 23:10:01 PAGE 3   
+C51 COMPILER V9.00   MAIN                                                                  03/30/2021 10:13:03 PAGE 3   
 
+   DATA SIZE        =      8       6
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
