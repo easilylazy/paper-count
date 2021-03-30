@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   UTILS                                                                 03/29/2021 23:10:01 PAGE 1   
+C51 COMPILER V9.00   UTILS                                                                 03/30/2021 11:03:31 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE UTILS
@@ -49,37 +49,54 @@ line level    source
   39   3                                      }                       
   40   2                              }
   41   1      }
-  42          void output_int(unsigned int num){
-  43   1                                              
-  44   1                                      SBUF=num;
-  45   1                                      while(!TI);
-  46   1                                      TI=0;
-  47   1      
-  48   1      }
-  49          uchar displayNum(int num){
-  50   1              // 一位一位变
-  51   1              int i;
-  52   1              for(i=1;;i*=10){
-  53   2                      if(num/i==0){
-  54   3                              break;
-C51 COMPILER V9.00   UTILS                                                                 03/29/2021 23:10:01 PAGE 2   
+  42          void output_int(unsigned int num){                              
+  43   1              unsigned char *result_pstr;
+  44   1              result_pstr=int2string(num);
+*** WARNING C182 IN LINE 44 OF SRC\UTILS.C: pointer to different objects
+  45   1              for(;*result_pstr!='\0';result_pstr++){
+  46   2                 
+  47   2                 SBUF=*result_pstr;
+  48   2             while(!TI);
+  49   2                 TI=0;
+  50   2              }
+  51   1              SBUF='\n';
+  52   1              while(!TI);
+  53   1              TI=0;                                   
+C51 COMPILER V9.00   UTILS                                                                 03/30/2021 11:03:31 PAGE 2   
 
-  55   3                      }
-  56   2              }
-  57   1              return 'z';     
-  58   1      }
-*** WARNING C316 IN LINE 58 OF src\utils.c: unterminated conditionals
+  54   1                                      
+  55   1      
+  56   1      }
+  57          uchar* int2string(int num){
+  58   1              unsigned char num_str[10],this,last;
+  59   1              // 一位一位变
+  60   1              int i,b=0;
+  61   1              this=num;
+  62   1              for(i=1;;i*=10){                
+  63   2                      last=this/10;
+  64   2                      num_str[b]=this-last*10+48;
+  65   2                      b++;
+  66   2                      if(last==0){
+  67   3                              num_str[b]='\0';
+  68   3                              break;
+  69   3                      }
+  70   2                      this=last;
+  71   2              }
+  72   1              
+  73   1              return &num_str;        
+  74   1      }
+*** WARNING C316 IN LINE 74 OF src\utils.c: unterminated conditionals
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    194    ----
+   CODE SIZE        =    250    ----
    CONSTANT SIZE    =     13    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       2
+   DATA SIZE        =   ----      14
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

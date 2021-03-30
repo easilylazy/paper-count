@@ -47,10 +47,13 @@ void watchChange(){
 }
 void main(void){
 	unsigned int last_beat=0,seconds=0;
+	
+
 	uint period =5;
 	init();
 	flag=0;
-	test_filter();
+	test_filter();	
+	
 	while(1){
 		led1=0;
 		watchChange();

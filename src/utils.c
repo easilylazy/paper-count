@@ -39,20 +39,36 @@ int i;
 				}			
 			}
 }
-void output_int(unsigned int num){
-					
-				SBUF=num;
-				while(!TI);
-				TI=0;
+void output_int(unsigned int num){				
+	unsigned char *result_pstr;
+	result_pstr=int2string(num);
+	for(;*result_pstr!='\0';result_pstr++){
+	   
+	   SBUF=*result_pstr;
+       while(!TI);
+	   TI=0;
+	}
+	SBUF='\n';
+   	while(!TI);
+   	TI=0;					
+				
 
 }
-uchar displayNum(int num){
+uchar* int2string(int num){
+	unsigned char num_str[10],this,last;
 	// 一位一位变
-	int i;
-	for(i=1;;i*=10){
-	 	if(num/i==0){
+	int i,b=0;
+	this=num;
+	for(i=1;;i*=10){ 		
+		last=this/10;
+		num_str[b]=this-last*10+48;
+		b++;
+	 	if(last==0){
+			num_str[b]='\0';
 			break;
 		}
+		this=last;
 	}
-	return 'z'; 	
+	
+	return &num_str; 	
 }

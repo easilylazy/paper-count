@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   MAIN                                                                  03/30/2021 10:13:03 PAGE 1   
+C51 COMPILER V9.00   MAIN                                                                  03/30/2021 11:03:20 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
@@ -57,77 +57,80 @@ line level    source
   47   1      }
   48          void main(void){
   49   1              unsigned int last_beat=0,seconds=0;
-  50   1              uint period =5;
-  51   1              init();
-  52   1              flag=0;
-  53   1              test_filter();
-  54   1              while(1){
-C51 COMPILER V9.00   MAIN                                                                  03/30/2021 10:13:03 PAGE 2   
+  50   1              
+  51   1      
+  52   1              uint period =5;
+  53   1              init();
+  54   1              flag=0;
+C51 COMPILER V9.00   MAIN                                                                  03/30/2021 11:03:20 PAGE 2   
 
-  55   2                      led1=0;
-  56   2                      watchChange();
-  57   2                      if (flag==1){
-  58   3                              ES=0;
-  59   3                              processInput(a);
-  60   3                              
-  61   3                              SBUF=a;
-  62   3                              while(!TI);
-  63   3                              TI=0;
-  64   3                              
-  65   3                              ES=1;
-  66   3                              flag=0;
-  67   3      
-  68   3                      }
-  69   2                      if(last_beat!=beat&&beat%20==1){
-  70   3                              ES=0;
-  71   3                              seconds++;
-  72   3                              if (seconds%period==1){
-  73   4                                      SBUF=':';
-  74   4                                      while(!TI);
-  75   4                                      TI=0;
-  76   4                                      output_int(TH0);
-  77   4                                      output_int(TL0);
-  78   4                                      resetT0();
-  79   4                              }
-  80   3                              
-  81   3      //                      if(beat%1200==1){
-  82   3      //                              SBUF='&';
-  83   3      //                              while(!TI);
-  84   3      //                              TI=0;
-  85   3      //                      }
-  86   3      //                      SBUF='*';
-  87   3      //                      while(!TI);
-  88   3      //                      TI=0;
-  89   3                              ES=1;
-  90   3                              last_beat=beat;
-  91   3                      }
-  92   2      
-  93   2              }
-  94   1      }       
-  95          void refresh() interrupt 4{
-  96   1      
-  97   1              RI=0;
-  98   1              a=SBUF;
-  99   1              flag=1;
- 100   1                       
- 101   1      }       
- 102          
- 103          void timer_50ms() interrupt 5{
- 104   1      
- 105   1              TF2=0;
- 106   1              beat++;  
+  55   1              test_filter();  
+  56   1              
+  57   1              while(1){
+  58   2                      led1=0;
+  59   2                      watchChange();
+  60   2                      if (flag==1){
+  61   3                              ES=0;
+  62   3                              processInput(a);
+  63   3                              
+  64   3                              SBUF=a;
+  65   3                              while(!TI);
+  66   3                              TI=0;
+  67   3                              
+  68   3                              ES=1;
+  69   3                              flag=0;
+  70   3      
+  71   3                      }
+  72   2                      if(last_beat!=beat&&beat%20==1){
+  73   3                              ES=0;
+  74   3                              seconds++;
+  75   3                              if (seconds%period==1){
+  76   4                                      SBUF=':';
+  77   4                                      while(!TI);
+  78   4                                      TI=0;
+  79   4                                      output_int(TH0);
+  80   4                                      output_int(TL0);
+  81   4                                      resetT0();
+  82   4                              }
+  83   3                              
+  84   3      //                      if(beat%1200==1){
+  85   3      //                              SBUF='&';
+  86   3      //                              while(!TI);
+  87   3      //                              TI=0;
+  88   3      //                      }
+  89   3      //                      SBUF='*';
+  90   3      //                      while(!TI);
+  91   3      //                      TI=0;
+  92   3                              ES=1;
+  93   3                              last_beat=beat;
+  94   3                      }
+  95   2      
+  96   2              }
+  97   1      }       
+  98          void refresh() interrupt 4{
+  99   1      
+ 100   1              RI=0;
+ 101   1              a=SBUF;
+ 102   1              flag=1;
+ 103   1                       
+ 104   1      }       
+ 105          
+ 106          void timer_50ms() interrupt 5{
  107   1      
- 108   1      }
-*** WARNING C316 IN LINE 108 OF src\main.c: unterminated conditionals
+ 108   1              TF2=0;
+ 109   1              beat++;  
+ 110   1      
+ 111   1      }
+*** WARNING C316 IN LINE 111 OF src\main.c: unterminated conditionals
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    250    ----
+C51 COMPILER V9.00   MAIN                                                                  03/30/2021 11:03:20 PAGE 3   
+
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-C51 COMPILER V9.00   MAIN                                                                  03/30/2021 10:13:03 PAGE 3   
-
    DATA SIZE        =      8       6
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
