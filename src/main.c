@@ -1,10 +1,12 @@
-#include <reg52.h>
+# include <reg52.h>
 # include "include/utils.h"
+# include "include/kalman.h" 
+# define uint unsigned int
 uchar flag,a,i;
 unsigned int beat;
 
 
-//sbit led1=P1^0 ;
+sbit led1=P1^0 ;
 sbit watch=P1^2;
 sbit input=P3^7;
 sbit ticker=P0^0;	
@@ -44,35 +46,44 @@ void watchChange(){
 
 }
 void main(void){
-	unsigned int last_beat=0;
+	unsigned int last_beat=0,seconds=0;
+	unsigned int cnt_sum;//,foo=0X0001,bar=0X0002;
+	unsigned int period =5;
+	double freq;
+
+	
+	
 	init();
 	flag=0;
-	
+	//test_filter();	
+	init_filter();
 	while(1){
-		//led1=0;
+		led1=0;
 		watchChange();
 		if (flag==1){
 			ES=0;
 			processInput(a);
-			
-			SBUF=a;
-			while(!TI);
-			TI=0;
-			
+						
 			ES=1;
 			flag=0;
 
 		}
 		if(last_beat!=beat&&beat%20==1){
 			ES=0;
-		 	if(beat%1200==1){
-				SBUF='&';
-				while(!TI);
-				TI=0;
+			seconds++;
+			if (seconds%period==1){
+				cnt_sum=(TH0<<8)+TL0;
+				output_string("sum: ");
+				output_int(cnt_sum);
+				freq=(double)cnt_sum;///period;
+				output_string("freq: ");
+				output_int((int)freq);
+				predict();
+				update(freq);
+				output_string("filter: ");
+				output_int((int)getXn());
+				resetT0();
 			}
-			SBUF='*';
-			while(!TI);
-			TI=0;
 			ES=1;
 			last_beat=beat;
 		}
