@@ -5,7 +5,7 @@ void init_filter(){
  	//Kn=0.01;
 	Pn=0.01;
 	Rn=0.01;
-	X_n=2;
+	
 
 
 }
@@ -19,6 +19,10 @@ void update(float Z){
 	Kn=Pn/(Pn+Rn);
 	Pn_1=(1-Kn)*Pn;
     X_n=X_n_1+Kn*(Z-X_n_1);
+
+}
+float getXn(){
+	 return X_n;
 }
 
 void test_filter(){

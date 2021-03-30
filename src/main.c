@@ -49,13 +49,14 @@ void main(void){
 	unsigned int last_beat=0,seconds=0;
 	unsigned int cnt_sum;//,foo=0X0001,bar=0X0002;
 	unsigned int period =5;
+	double freq;
 
 	
 	
 	init();
 	flag=0;
-	test_filter();	
-	
+	//test_filter();	
+	init_filter();
 	while(1){
 		led1=0;
 		watchChange();
@@ -71,12 +72,16 @@ void main(void){
 			ES=0;
 			seconds++;
 			if (seconds%period==1){
-			 	SBUF=':';
-				while(!TI);
-				TI=0;
 				cnt_sum=(TH0<<8)+TL0;
+				output_string("sum: ");
 				output_int(cnt_sum);
-				
+				freq=(double)cnt_sum;///period;
+				output_string("freq: ");
+				output_int((int)freq);
+				predict();
+				update(freq);
+				output_string("filter: ");
+				output_int((int)getXn());
 				resetT0();
 			}
 			ES=1;
