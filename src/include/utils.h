@@ -9,6 +9,7 @@ void sleep(unsigned int xms);
 void resetT0();
 
 void processInput(unsigned char a);
+//void output_bit(sbit b);
 void output_int(unsigned int num);
 void output_char(unsigned char ch);
 void output_string(unsigned char* str);

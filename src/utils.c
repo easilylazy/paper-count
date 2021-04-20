@@ -23,12 +23,18 @@ void processInput(unsigned char a){
 		output_int(TL0);	
 
 		
-	}else {
-		output_string("got it! ");	
-		SBUF=a;
-		while(!TI);
-		TI=0;		
 	}
+	else if (a=='e'){
+		output_string("p3.7 ");
+		output_int(P3^7);
+	
+	}
+//	else {
+//		//output_string("got it! ");	
+//		SBUF=a;
+//		while(!TI);
+//		TI=0;		
+//	}
 }
 void output_int(unsigned int num){				
 	unsigned char *result_pstr;

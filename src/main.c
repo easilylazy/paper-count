@@ -3,8 +3,9 @@
 # include "include/kalman.h" 
 # define uint unsigned int
 uchar flag,a,i;
-unsigned int beat;
+unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
+unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
 
 sbit led1=P1^0 ;
 sbit watch=P1^2;
@@ -27,7 +28,9 @@ void init(){
 	EA=1;
 	ES=1;
 
-	ET2=1;
+	ET0=1;		  // T0溢出中断，精确计数次数	
+	ET2=1;		  // 允许T2中断，以通过自动重装计时
+
 
 }
 
@@ -35,15 +38,19 @@ void init(){
 
 void watchChange(){
 	
+	int i;
  	if(input==0){
-		 sleep(10);
-		 if(input==0){
+		// sleep(10);
+		 //if(input==0){	   
 		  	watch=~watch;
 			while(!input); // wait for key 
-			watch=~watch;
-		 }	
-	}
 
+			watch=~watch;
+//			for(i=0;i<0;i++){
+//						watch=~watch;
+//			}
+	//	 }	
+	}
 }
 void main(void){
 	unsigned int last_beat=0,seconds=0;
@@ -58,11 +65,25 @@ void main(void){
 	//test_filter();	
 	init_filter();
 	while(1){
+		//input=~input;
 		led1=0;
 		watchChange();
 		if (flag==1){
 			ES=0;
 			processInput(a);
+			if(a=='p'){
+				output_string("TH0: ");
+				output_int(TH0);
+
+				output_string("TH0*256: ");
+				output_int(TH0*256);
+
+				output_string("TH0<<: ");
+				output_int(TH0>>8);
+
+				output_string("TL0: ");
+				output_int(TL0);
+			}
 						
 			ES=1;
 			flag=0;
@@ -71,18 +92,30 @@ void main(void){
 		if(last_beat!=beat&&beat%20==1){
 			ES=0;
 			seconds++;
-			if (seconds%period==1){
-				cnt_sum=(TH0<<8)+TL0;
+			if (seconds%(1*period)==1){
+				cnt_sum= 256*round+TH0;
+				//(TH0<<8)+TL0;
+				
+				freq=(double)cnt_sum/period;
+
 				output_string("sum: ");
 				output_int(cnt_sum);
-				freq=(double)cnt_sum;///period;
+
 				output_string("freq: ");
 				output_int((int)freq);
-				predict();
-				update(freq);
+
 				output_string("filter: ");
 				output_int((int)getXn());
+
+				output_string("round: ");
+				output_int(round);
+			
+				predict();
+				update(freq);
+				
+				// reset
 				resetT0();
+				round=0;
 			}
 			ES=1;
 			last_beat=beat;
@@ -90,6 +123,14 @@ void main(void){
 
 	}
 }	
+
+// T0 溢出， 统计+1
+void overflow() interrupt 1{
+	output_string(" OVERFLOW ");
+	round++;	
+	TF1=0;	 
+}
+
 void refresh() interrupt 4{
 
 	RI=0;
