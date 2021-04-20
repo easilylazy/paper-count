@@ -25,14 +25,14 @@ float getXn(){
 	 return X_n;
 }
 
-void test_filter(){
-	float measure[5]={3.3,3.2,3.1,2.8,2.7};
-	int i;
-	init_filter();
-	for(i=0;i<5;i++){
-	 	predict();
-		update(measure[i]);
+// void test_filter(){
+// 	float measure[5]={3.3,3.2,3.1,2.8,2.7};
+// 	int i;
+// 	init_filter();
+// 	for(i=0;i<5;i++){
+// 	 	predict();
+// 		update(measure[i]);
 
-	}
+// 	}
 
-}
+// }

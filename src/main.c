@@ -6,7 +6,7 @@ uchar flag,a,i;
 unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
 unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
-unsigned int table[10];
+float table[11];
 sbit led1=P1^0 ;
 sbit watch=P1^2;
 sbit input=P3^7;
@@ -55,6 +55,19 @@ void watchChange();
 // 测量频率
 int countFrequency();
 
+
+void simpleFit();
+void simpleFit(){
+    int i;
+    for(i=6;i<10;i+=4){
+        table[i]=(table[i+2]+table[i-2])/2;
+    }
+
+    for(i=1;i<10;i+=2){
+        table[i]=(table[i+1]+table[i-1])/2;
+    }
+}
+
 void main(void){
 
 	int freq;
@@ -101,24 +114,39 @@ void main(void){
 				output_int(initValue);
 				output_string(" and print c");
 
+				table[2]=7;
+				table[4]=11;
+				table[8]=16;
+				table[10]=18;
 
-				while(1){
-
-
-
-					ES=0;
-					processInput(a);
-					if(a=='c'){
-						table[initValue]=countFrequency();
+				// while(1){
+				// 	ES=0;
+				// 	processInput(a);
+				// 	if(a=='c'){
+				// 		table[initValue]=countFrequency();
 	
-						output_string("table[initValue]: ");
-						output_int(table[initValue]);
-						ES=1;
-						break;
-					}
+				// 		output_string("table[initValue]: ");
+				// 		output_int((int)table[initValue]);
+				// 		ES=1;
+				// 		break;
+				// 	}
 								
-					ES=1;	
-				}
+				// 	ES=1;	
+				// }
+			}
+			// 进行拟合、获取各纸张对应函数
+			output_string(" table ");
+			for(i=0;i<=10;i++){
+				output_string(" -");
+				output_int(i);
+				output_int((int)table[i]);
+			}
+			simpleFit();
+			output_string(" table ");
+			for(i=0;i<=10;i++){
+				output_string(" -");
+				output_int(i);
+				output_int((int)table[i]);
 			}
 			appMode=NORMAL;
 		}
