@@ -137,7 +137,7 @@ int countFrequency(){
 			if(last_beat!=beat&&beat%20==1){
 				
 				ES=0;
-				seconds++;
+				
 				if (seconds%(1*period)==1){
 					// 设定计算的周期到达，增加轮数
 					iteration++;
@@ -167,6 +167,7 @@ int countFrequency(){
 					round=0;
 				}
 				ES=1;
+				seconds++;
 				last_beat=beat;
 		}
 
