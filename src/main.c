@@ -48,38 +48,24 @@ void init(){
 
 }
 
+// 记录输出电平变化（即电容转换对应的频率）
+void watchChange();
 
 
-void watchChange(){
-	
-	int i;
- 	if(input==0){
-		// sleep(10);
-		 //if(input==0){	   
-		  	watch=~watch;
-			while(!input); // wait for key 
+// 测量频率
+int countFrequency();
 
-			watch=~watch;
-//			for(i=0;i<0;i++){
-//						watch=~watch;
-//			}
-	//	 }	
-	}
-}
 void main(void){
-	unsigned int last_beat=0,seconds=0;
-	unsigned int cnt_sum;//,foo=0X0001,bar=0X0002;
-	unsigned int period =5;
-	double freq;
+
+	int freq;
 
 	init();
 	flag=0;
-	//test_filter();	
-	init_filter();
+	
 	while(1){
 		//input=~input;
 		led1=0;
-		watchChange();
+		
 		if (flag==1){
 			ES=0;
 			processInput(a);
@@ -108,40 +94,89 @@ void main(void){
 			flag=0;
 
 		}
-		if(last_beat!=beat&&beat%20==1){
-			ES=0;
-			seconds++;
-			if (seconds%(1*period)==1){
-				cnt_sum= 256*round+TH0;
-				//(TH0<<8)+TL0;
+		if(appMode==DEBUG){
+			;
+		}
+
+		if(appMode==START){
+			freq=countFrequency();
+			output_string(" #RESULT# ");
+			output_int(freq);
+		}
+		
+	}
+}
+void watchChange(){
+	
+ 	if(input==0){
+		// sleep(10);
+		 //if(input==0){	   
+		  	watch=~watch;
+			while(!input); // wait for key 
+
+			watch=~watch;
+//			for(i=0;i<0;i++){
+//						watch=~watch;
+//			}
+	//	 }	
+	}
+}	
+
+int countFrequency(){
+	unsigned int last_beat=0,seconds=0;
+	unsigned int cnt_sum;//,foo=0X0001,bar=0X0002;
+	unsigned int period =2;
+	double freq;
+	unsigned int iteration;
+	//test_filter();	
+	init_filter();
+
+	for(iteration=0;iteration<6;){
+		//一直监测翻转情况
+		watchChange();
+			if(last_beat!=beat&&beat%20==1){
 				
-				freq=(double)cnt_sum/period;
+				ES=0;
+				seconds++;
+				if (seconds%(1*period)==1){
+					// 设定计算的周期到达，增加轮数
+					iteration++;
 
-				output_string("sum: ");
-				output_int(cnt_sum);
+					cnt_sum= 256*round+TH0;
+					//(TH0<<8)+TL0;
+					
+					freq=cnt_sum;//(double)cnt_sum/period;
 
-				output_string("freq: ");
-				output_int((int)freq);
+					output_string("sum: ");
+					output_int(cnt_sum);
 
-				output_string("filter: ");
-				output_int((int)getXn());
+					// output_string("freq: ");
+					// output_int((int)freq);
 
-				output_string("round: ");
-				output_int(round);
-			
-				predict();
-				update(freq);
+					output_string("filter: ");
+					output_int((int)getXn());
+
+					// output_string("round: ");
+					// output_int(round);
 				
-				// reset
-				resetT0();
-				round=0;
-			}
-			ES=1;
-			last_beat=beat;
+					predict();
+					update(freq);
+					
+					// reset
+					resetT0();
+					round=0;
+				}
+				ES=1;
+				last_beat=beat;
 		}
 
 	}
-}	
+
+
+		
+	return (int)getXn();
+
+}
 
 // T0 溢出， 统计+1
 void overflow() interrupt 1{

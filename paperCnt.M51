@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        04/20/2021  21:10:33  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/20/2021  21:54:01  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -38,11 +38,11 @@ LINK MAP OF MODULE:  .\output\paperCnt (?C_STARTUP)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     0018H     UNIT         ?DT?KALMAN
-            DATA    0020H     0018H     UNIT         _DATA_GROUP_
-            DATA    0038H     0016H     UNIT         ?DT?TEST_FILTER?KALMAN
-            DATA    004EH     000BH     UNIT         ?DT?MAIN
-            IDATA   0059H     0001H     UNIT         ?STACK
+            DATA    0008H     001BH     UNIT         _DATA_GROUP_
+            DATA    0023H     0018H     UNIT         ?DT?KALMAN
+            DATA    003BH     0016H     UNIT         ?DT?TEST_FILTER?KALMAN
+            DATA    0051H     000BH     UNIT         ?DT?MAIN
+            IDATA   005CH     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
@@ -57,34 +57,35 @@ LINK MAP OF MODULE:  .\output\paperCnt (?C_STARTUP)
             CODE    002BH     0003H     ABSOLUTE     
                     002EH     07D2H                  *** GAP ***
             CODE    0800H     0523H     UNIT         ?C?LIB_CODE
-            CODE    0D23H     0195H     UNIT         ?PR?MAIN?MAIN
-            CODE    0EB8H     008DH     UNIT         ?PR?_INT2STRING?UTILS
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 2
+            CODE    0D23H     00CEH     UNIT         ?PR?COUNTFREQUENCY?MAIN
+            CODE    0DF1H     00B9H     UNIT         ?PR?MAIN?MAIN
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 2
 
 
-            CODE    0F45H     008DH     UNIT         ?PR?_UPDATE?KALMAN
-            CODE    0FD2H     008CH     UNIT         ?C_C51STARTUP
-            CODE    105EH     007DH     UNIT         ?CO?MAIN
-            CODE    10DBH     0057H     UNIT         ?PR?START?MAIN
-            CODE    1132H     0050H     UNIT         ?PR?DEBUG?MAIN
-            CODE    1182H     004BH     UNIT         ?PR?OVERFLOW?MAIN
-            CODE    11CDH     0041H     UNIT         ?PR?TEST_FILTER?KALMAN
-            CODE    120EH     003CH     UNIT         ?PR?_PROCESSINPUT?UTILS
-            CODE    124AH     002FH     UNIT         ?PR?INIT?MAIN
-            CODE    1279H     0020H     UNIT         ?PR?_SLEEP?UTILS
-            CODE    1299H     001BH     UNIT         ?PR?REFRESH?MAIN
-            CODE    12B4H     0019H     UNIT         ?PR?INIT_FILTER?KALMAN
-            CODE    12CDH     0019H     UNIT         ?PR?PREDICT?KALMAN
-            CODE    12E6H     0016H     UNIT         ?PR?_OUTPUT_STRING?UTILS
-            CODE    12FCH     0014H     UNIT         ?CO?KALMAN
-            CODE    1310H     000FH     UNIT         ?PR?TIMER_50MS?MAIN
-            CODE    131FH     000DH     UNIT         ?CO?UTILS
-            CODE    132CH     000BH     UNIT         ?PR?WATCHCHANGE?MAIN
-            CODE    1337H     000BH     UNIT         ?PR?_OUTPUT_INT?UTILS
-            CODE    1342H     0009H     UNIT         ?PR?GETXN?KALMAN
-            CODE    134BH     0008H     UNIT         ?PR?_OUTPUT_CHAR?UTILS
-            CODE    1353H     0006H     UNIT         ?PR?RESETT0?UTILS
-            CODE    1359H     0004H     UNIT         ?C_INITSEG
+            CODE    0EAAH     008DH     UNIT         ?PR?_INT2STRING?UTILS
+            CODE    0F37H     008DH     UNIT         ?PR?_UPDATE?KALMAN
+            CODE    0FC4H     008CH     UNIT         ?C_C51STARTUP
+            CODE    1050H     0079H     UNIT         ?CO?MAIN
+            CODE    10C9H     0057H     UNIT         ?PR?START?MAIN
+            CODE    1120H     0050H     UNIT         ?PR?DEBUG?MAIN
+            CODE    1170H     004BH     UNIT         ?PR?OVERFLOW?MAIN
+            CODE    11BBH     0041H     UNIT         ?PR?TEST_FILTER?KALMAN
+            CODE    11FCH     003CH     UNIT         ?PR?_PROCESSINPUT?UTILS
+            CODE    1238H     002FH     UNIT         ?PR?INIT?MAIN
+            CODE    1267H     0020H     UNIT         ?PR?_SLEEP?UTILS
+            CODE    1287H     001BH     UNIT         ?PR?REFRESH?MAIN
+            CODE    12A2H     0019H     UNIT         ?PR?INIT_FILTER?KALMAN
+            CODE    12BBH     0019H     UNIT         ?PR?PREDICT?KALMAN
+            CODE    12D4H     0016H     UNIT         ?PR?_OUTPUT_STRING?UTILS
+            CODE    12EAH     0014H     UNIT         ?CO?KALMAN
+            CODE    12FEH     000FH     UNIT         ?PR?TIMER_50MS?MAIN
+            CODE    130DH     000DH     UNIT         ?CO?UTILS
+            CODE    131AH     000BH     UNIT         ?PR?WATCHCHANGE?MAIN
+            CODE    1325H     000BH     UNIT         ?PR?_OUTPUT_INT?UTILS
+            CODE    1330H     0009H     UNIT         ?PR?GETXN?KALMAN
+            CODE    1339H     0008H     UNIT         ?PR?_OUTPUT_CHAR?UTILS
+            CODE    1341H     0006H     UNIT         ?PR?RESETT0?UTILS
+            CODE    1347H     0004H     UNIT         ?C_INITSEG
 
 
 
@@ -98,11 +99,36 @@ SEGMENT                            DATA_GROUP
   +--> ?PR?MAIN?MAIN
   +--> ?C_INITSEG
 
-?PR?MAIN?MAIN                    0020H    000CH
+?PR?MAIN?MAIN                    0008H    0002H
   +--> ?PR?INIT?MAIN
+  +--> ?PR?_PROCESSINPUT?UTILS
+  +--> ?CO?MAIN
+  +--> ?PR?_OUTPUT_STRING?UTILS
+  +--> ?PR?_OUTPUT_INT?UTILS
+  +--> ?PR?COUNTFREQUENCY?MAIN
+
+?PR?INIT?MAIN                    -----    -----
+  +--> ?PR?RESETT0?UTILS
+
+?PR?_PROCESSINPUT?UTILS          000AH    0001H
+  +--> ?CO?UTILS
+  +--> ?PR?_OUTPUT_STRING?UTILS
+  +--> ?PR?RESETT0?UTILS
+  +--> ?PR?_OUTPUT_INT?UTILS
+
+?PR?_OUTPUT_INT?UTILS            -----    -----
+  +--> ?PR?_INT2STRING?UTILS
+  +--> ?PR?_OUTPUT_STRING?UTILS
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 3
+
+
+  +--> ?PR?_OUTPUT_CHAR?UTILS
+
+?PR?_INT2STRING?UTILS            0018H    000BH
+
+?PR?COUNTFREQUENCY?MAIN          000AH    000EH
   +--> ?PR?INIT_FILTER?KALMAN
   +--> ?PR?WATCHCHANGE?MAIN
-  +--> ?PR?_PROCESSINPUT?UTILS
   +--> ?CO?MAIN
   +--> ?PR?_OUTPUT_STRING?UTILS
   +--> ?PR?_OUTPUT_INT?UTILS
@@ -111,28 +137,7 @@ SEGMENT                            DATA_GROUP
   +--> ?PR?_UPDATE?KALMAN
   +--> ?PR?RESETT0?UTILS
 
-?PR?INIT?MAIN                    -----    -----
-  +--> ?PR?RESETT0?UTILS
-
-?PR?WATCHCHANGE?MAIN             002CH    0002H
-
-?PR?_PROCESSINPUT?UTILS          002CH    0001H
-  +--> ?CO?UTILS
-  +--> ?PR?_OUTPUT_STRING?UTILS
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 3
-
-
-  +--> ?PR?RESETT0?UTILS
-  +--> ?PR?_OUTPUT_INT?UTILS
-
-?PR?_OUTPUT_INT?UTILS            -----    -----
-  +--> ?PR?_INT2STRING?UTILS
-  +--> ?PR?_OUTPUT_STRING?UTILS
-  +--> ?PR?_OUTPUT_CHAR?UTILS
-
-?PR?_INT2STRING?UTILS            002DH    000BH
-
-?PR?_UPDATE?KALMAN               002CH    0004H
+?PR?_UPDATE?KALMAN               0018H    0004H
 
 *** NEW ROOT ***************************************************
 
@@ -161,8 +166,8 @@ SYMBOL TABLE OF MODULE:  .\output\paperCnt (?C_STARTUP)
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
-  C:0FD2H         SEGMENT       ?C_C51STARTUP
-  I:0059H         SEGMENT       ?STACK
+  C:0FC4H         SEGMENT       ?C_C51STARTUP
+  I:005CH         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
   D:00E0H         SYMBOL        ACC
   D:00F0H         SYMBOL        B
@@ -171,30 +176,30 @@ SYMBOL TABLE OF MODULE:  .\output\paperCnt (?C_STARTUP)
   N:0000H         SYMBOL        IBPSTACK
   N:0100H         SYMBOL        IBPSTACKTOP
   N:0080H         SYMBOL        IDATALEN
-  C:0FD5H         SYMBOL        IDATALOOP
+  C:0FC7H         SYMBOL        IDATALOOP
   N:0000H         SYMBOL        PBPSTACK
   N:0100H         SYMBOL        PBPSTACKTOP
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 4
+
+
   N:0000H         SYMBOL        PDATALEN
   N:0000H         SYMBOL        PDATASTART
   N:0000H         SYMBOL        PPAGE
   N:0000H         SYMBOL        PPAGEENABLE
   D:00A0H         SYMBOL        PPAGE_SFR
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 4
-
-
   D:0081H         SYMBOL        SP
-  C:0FD2H         SYMBOL        STARTUP1
+  C:0FC4H         SYMBOL        STARTUP1
   N:0000H         SYMBOL        XBPSTACK
   N:0000H         SYMBOL        XBPSTACKTOP
   N:0000H         SYMBOL        XDATALEN
   N:0000H         SYMBOL        XDATASTART
   C:0000H         LINE#         126
-  C:0FD2H         LINE#         133
-  C:0FD4H         LINE#         134
-  C:0FD5H         LINE#         135
-  C:0FD6H         LINE#         136
-  C:0FD8H         LINE#         185
-  C:0FDBH         LINE#         196
+  C:0FC4H         LINE#         133
+  C:0FC6H         LINE#         134
+  C:0FC7H         LINE#         135
+  C:0FC8H         LINE#         136
+  C:0FCAH         LINE#         185
+  C:0FCDH         LINE#         196
   -------         ENDMOD        ?C_STARTUP
 
   -------         MODULE        MAIN
@@ -203,30 +208,30 @@ SYMBOL TABLE OF MODULE:  .\output\paperCnt (?C_STARTUP)
   D:0090H         PUBLIC        P1
   D:00B0H         PUBLIC        P3
   B:00A8H.7       PUBLIC        EA
-  C:1132H         PUBLIC        debug
+  C:1120H         PUBLIC        debug
   D:00A8H         PUBLIC        IE
   B:00A8H.4       PUBLIC        ES
   D:00B8H         PUBLIC        IP
   B:0090H.2       PUBLIC        watch
   B:0098H.0       PUBLIC        RI
-  D:004EH         PUBLIC        flag
+  D:0051H         PUBLIC        flag
   B:00B0H.2       PUBLIC        INT0
   B:00B0H.3       PUBLIC        INT1
-  D:0050H         PUBLIC        beat
+  D:0053H         PUBLIC        beat
   D:00CBH         PUBLIC        RCAP2H
   D:00CAH         PUBLIC        RCAP2L
-  C:0D23H         PUBLIC        main
-  D:0052H         PUBLIC        round
-  C:10DBH         PUBLIC        start
+  C:0DF1H         PUBLIC        main
+  D:0055H         PUBLIC        round
+  C:10C9H         PUBLIC        start
   D:0099H         PUBLIC        SBUF
   B:00B0H.7       PUBLIC        input
   D:0098H         PUBLIC        SCON
   D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
-  C:124AH         PUBLIC        init
+  C:1238H         PUBLIC        init
   B:00A8H.1       PUBLIC        ET0
-  D:0054H         PUBLIC        appMode
-  C:1310H         PUBLIC        timer_50ms
+  D:0057H         PUBLIC        appMode
+  C:12FEH         PUBLIC        timer_50ms
   B:00A8H.5       PUBLIC        ET2
   B:0088H.7       PUBLIC        TF1
   B:00C8H.7       PUBLIC        TF2
@@ -234,194 +239,207 @@ SYMBOL TABLE OF MODULE:  .\output\paperCnt (?C_STARTUP)
   B:00A8H.0       PUBLIC        EX0
   B:0088H.0       PUBLIC        IT0
   D:008DH         PUBLIC        TH1
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 5
+
+
   B:00A8H.2       PUBLIC        EX1
   B:0088H.2       PUBLIC        IT1
   B:0098H.7       PUBLIC        SM0
   D:008AH         PUBLIC        TL0
   B:0098H.6       PUBLIC        SM1
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 5
-
-
   D:008BH         PUBLIC        TL1
   B:0088H.4       PUBLIC        TR0
   B:0088H.6       PUBLIC        TR1
   B:00C8H.2       PUBLIC        TR2
-  D:0055H         PUBLIC        a
-  C:132CH         PUBLIC        watchChange
+  D:0058H         PUBLIC        a
+  C:131AH         PUBLIC        watchChange
+  C:0D23H         PUBLIC        countFrequency
   B:0098H.4       PUBLIC        REN
   B:0090H.0       PUBLIC        led1
   D:00C8H         PUBLIC        T2CON
-  D:0057H         PUBLIC        i
+  D:005AH         PUBLIC        i
   B:0080H.0       PUBLIC        testPin
-  C:1299H         PUBLIC        refresh
-  C:1182H         PUBLIC        overflow
+  C:1287H         PUBLIC        refresh
+  C:1170H         PUBLIC        overflow
   D:00D0H         PUBLIC        PSW
   -------         PROC          INIT
-  C:124AH         LINE#         23
-  C:124AH         LINE#         24
-  C:124DH         LINE#         25
-  C:1250H         LINE#         26
-  C:1253H         LINE#         28
-  C:1256H         LINE#         29
-  C:1259H         LINE#         30
-  C:125CH         LINE#         31
-  C:125EH         LINE#         32
-  C:1260H         LINE#         33
-  C:1262H         LINE#         34
-  C:1264H         LINE#         35
-  C:1266H         LINE#         36
-  C:1268H         LINE#         37
-  C:126AH         LINE#         38
-  C:126CH         LINE#         40
-  C:126EH         LINE#         41
-  C:1270H         LINE#         43
-  C:1272H         LINE#         44
-  C:1274H         LINE#         46
-  C:1276H         LINE#         47
-  C:1278H         LINE#         49
+  C:1238H         LINE#         23
+  C:1238H         LINE#         24
+  C:123BH         LINE#         25
+  C:123EH         LINE#         26
+  C:1241H         LINE#         28
+  C:1244H         LINE#         29
+  C:1247H         LINE#         30
+  C:124AH         LINE#         31
+  C:124CH         LINE#         32
+  C:124EH         LINE#         33
+  C:1250H         LINE#         34
+  C:1252H         LINE#         35
+  C:1254H         LINE#         36
+  C:1256H         LINE#         37
+  C:1258H         LINE#         38
+  C:125AH         LINE#         40
+  C:125CH         LINE#         41
+  C:125EH         LINE#         43
+  C:1260H         LINE#         44
+  C:1262H         LINE#         46
+  C:1264H         LINE#         47
+  C:1266H         LINE#         49
   -------         ENDPROC       INIT
-  -------         PROC          WATCHCHANGE
-  -------         DO            
-  D:002CH         SYMBOL        i
-  -------         ENDDO         
-  C:132CH         LINE#         53
-  C:132CH         LINE#         56
-  C:132FH         LINE#         59
-  C:1331H         LINE#         60
-  C:1334H         LINE#         62
-  C:1336H         LINE#         67
-  C:1336H         LINE#         68
-  -------         ENDPROC       WATCHCHANGE
   -------         PROC          MAIN
   -------         DO            
-  D:0020H         SYMBOL        last_beat
-  D:0022H         SYMBOL        seconds
-  D:0024H         SYMBOL        cnt_sum
-  D:0026H         SYMBOL        period
-  D:0028H         SYMBOL        freq
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 6
-
-
+  D:0008H         SYMBOL        freq
   -------         ENDDO         
-  C:0D23H         LINE#         69
-  C:0D23H         LINE#         70
-  C:0D2CH         LINE#         72
-  C:0D31H         LINE#         75
-  C:0D34H         LINE#         76
-  C:0D39H         LINE#         78
-  C:0D3CH         LINE#         79
-  C:0D3CH         LINE#         81
-  C:0D3EH         LINE#         82
-  C:0D41H         LINE#         83
-  C:0D4CH         LINE#         84
-  C:0D4EH         LINE#         85
-  C:0D53H         LINE#         86
-  C:0D5BH         LINE#         87
-  C:0D64H         LINE#         88
-  C:0D6BH         LINE#         90
-  C:0D74H         LINE#         91
-  C:0D7DH         LINE#         93
-  C:0D86H         LINE#         94
-  C:0D8DH         LINE#         96
-  C:0D96H         LINE#         97
-  C:0D9AH         LINE#         98
-  C:0DA4H         LINE#         99
-  C:0DADH         LINE#         100
-  C:0DB6H         LINE#         101
-  C:0DBFH         LINE#         102
-  C:0DC6H         LINE#         105
-  C:0DC6H         LINE#         107
-  C:0DC8H         LINE#         108
-  C:0DCDH         LINE#         110
-  C:0DCDH         LINE#         111
-  C:0DF0H         LINE#         112
-  C:0DF2H         LINE#         113
-  C:0DFAH         LINE#         114
-  C:0E0DH         LINE#         115
-  C:0E1CH         LINE#         118
-  C:0E4EH         LINE#         120
-  C:0E57H         LINE#         121
-  C:0E5EH         LINE#         123
-  C:0E67H         LINE#         124
-  C:0E75H         LINE#         126
-  C:0E7EH         LINE#         127
-  C:0E87H         LINE#         129
-  C:0E90H         LINE#         130
-  C:0E97H         LINE#         132
-  C:0E9AH         LINE#         133
-  C:0EA5H         LINE#         136
-  C:0EA8H         LINE#         137
-  C:0EADH         LINE#         138
-  C:0EADH         LINE#         139
-  C:0EAFH         LINE#         140
-  C:0EB5H         LINE#         141
-  C:0EB5H         LINE#         143
+  C:0DF1H         LINE#         58
+  C:0DF1H         LINE#         62
+  C:0DF4H         LINE#         63
+  C:0DF9H         LINE#         65
+  C:0DF9H         LINE#         67
+  C:0DFBH         LINE#         69
+  C:0E06H         LINE#         70
+  C:0E08H         LINE#         71
+  C:0E0DH         LINE#         72
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 6
+
+
+  C:0E15H         LINE#         73
+  C:0E1EH         LINE#         74
+  C:0E25H         LINE#         76
+  C:0E2EH         LINE#         77
+  C:0E37H         LINE#         79
+  C:0E40H         LINE#         80
+  C:0E47H         LINE#         82
+  C:0E50H         LINE#         83
+  C:0E54H         LINE#         84
+  C:0E5EH         LINE#         85
+  C:0E67H         LINE#         86
+  C:0E70H         LINE#         87
+  C:0E79H         LINE#         88
+  C:0E80H         LINE#         91
+  C:0E80H         LINE#         93
+  C:0E82H         LINE#         94
+  C:0E87H         LINE#         96
+  C:0E87H         LINE#         97
+  C:0E87H         LINE#         99
+  C:0E87H         LINE#         101
+  C:0E90H         LINE#         102
+  C:0E97H         LINE#         103
+  C:0EA0H         LINE#         104
+  C:0EA7H         LINE#         105
+  C:0EA7H         LINE#         107
   -------         ENDPROC       MAIN
+  -------         PROC          WATCHCHANGE
+  C:131AH         LINE#         109
+  C:131AH         LINE#         111
+  C:131DH         LINE#         114
+  C:131FH         LINE#         115
+  C:1322H         LINE#         117
+  C:1324H         LINE#         122
+  C:1324H         LINE#         123
+  -------         ENDPROC       WATCHCHANGE
+  -------         PROC          COUNTFREQUENCY
+  -------         DO            
+  D:000AH         SYMBOL        last_beat
+  D:000CH         SYMBOL        seconds
+  D:000EH         SYMBOL        cnt_sum
+  D:0010H         SYMBOL        period
+  D:0012H         SYMBOL        freq
+  D:0016H         SYMBOL        iteration
+  -------         ENDDO         
+  C:0D23H         LINE#         125
+  C:0D23H         LINE#         126
+  C:0D2CH         LINE#         128
+  C:0D31H         LINE#         132
+  C:0D34H         LINE#         134
+  C:0D47H         LINE#         136
+  C:0D4AH         LINE#         137
+  C:0D67H         LINE#         139
+  C:0D69H         LINE#         140
+  C:0D71H         LINE#         141
+  C:0D81H         LINE#         143
+  C:0D89H         LINE#         145
+  C:0D98H         LINE#         148
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 7
+
+
+  C:0DA7H         LINE#         150
+  C:0DB0H         LINE#         151
+  C:0DB7H         LINE#         156
+  C:0DC0H         LINE#         157
+  C:0DC9H         LINE#         162
+  C:0DCCH         LINE#         163
+  C:0DD7H         LINE#         166
+  C:0DDAH         LINE#         167
+  C:0DDFH         LINE#         168
+  C:0DDFH         LINE#         169
+  C:0DE1H         LINE#         170
+  C:0DE7H         LINE#         171
+  C:0DE7H         LINE#         173
+  C:0DEAH         LINE#         177
+  C:0DF0H         LINE#         179
+  -------         ENDPROC       COUNTFREQUENCY
   -------         PROC          OVERFLOW
-  C:1182H         LINE#         147
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 7
-
-
-  C:119FH         LINE#         148
-  C:11A8H         LINE#         149
-  C:11B0H         LINE#         150
-  C:11B2H         LINE#         151
+  C:1170H         LINE#         182
+  C:118DH         LINE#         183
+  C:1196H         LINE#         184
+  C:119EH         LINE#         185
+  C:11A0H         LINE#         186
   -------         ENDPROC       OVERFLOW
   -------         PROC          START
-  C:10DBH         LINE#         153
-  C:10F8H         LINE#         154
-  C:10FFH         LINE#         155
-  C:1108H         LINE#         156
-  C:110BH         LINE#         157
-  C:110EH         LINE#         158
-  C:1117H         LINE#         160
+  C:10C9H         LINE#         188
+  C:10E6H         LINE#         189
+  C:10EDH         LINE#         190
+  C:10F6H         LINE#         191
+  C:10F9H         LINE#         192
+  C:10FCH         LINE#         193
+  C:1105H         LINE#         195
   -------         ENDPROC       START
   -------         PROC          DEBUG
-  C:1132H         LINE#         162
-  C:114FH         LINE#         163
-  C:1158H         LINE#         164
-  C:115BH         LINE#         165
-  C:115EH         LINE#         166
-  C:1167H         LINE#         167
+  C:1120H         LINE#         197
+  C:113DH         LINE#         198
+  C:1146H         LINE#         199
+  C:1149H         LINE#         200
+  C:114CH         LINE#         201
+  C:1155H         LINE#         202
   -------         ENDPROC       DEBUG
   -------         PROC          REFRESH
-  C:1299H         LINE#         169
-  C:12A0H         LINE#         171
-  C:12A2H         LINE#         172
-  C:12A9H         LINE#         173
-  C:12AFH         LINE#         175
+  C:1287H         LINE#         204
+  C:128EH         LINE#         206
+  C:1290H         LINE#         207
+  C:1297H         LINE#         208
+  C:129DH         LINE#         210
   -------         ENDPROC       REFRESH
   -------         PROC          TIMER_50MS
-  C:1310H         LINE#         177
-  C:1312H         LINE#         179
-  C:1314H         LINE#         180
-  C:131CH         LINE#         182
+  C:12FEH         LINE#         212
+  C:1300H         LINE#         214
+  C:1302H         LINE#         215
+  C:130AH         LINE#         217
   -------         ENDPROC       TIMER_50MS
   -------         ENDMOD        MAIN
 
   -------         MODULE        UTILS
   C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 8
+
+
   D:0090H         PUBLIC        P1
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IE
-  C:120EH         PUBLIC        _processInput
+  C:11FCH         PUBLIC        _processInput
   D:00B8H         PUBLIC        IP
-  C:0EB8H         PUBLIC        _int2string
-  C:1279H         PUBLIC        _sleep
+  C:0EAAH         PUBLIC        _int2string
+  C:1267H         PUBLIC        _sleep
   B:0098H.1       PUBLIC        TI
-  C:1353H         PUBLIC        resetT0
-  C:12E6H         PUBLIC        _output_string
+  C:1341H         PUBLIC        resetT0
+  C:12D4H         PUBLIC        _output_string
   D:0099H         PUBLIC        SBUF
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  C:134BH         PUBLIC        _output_char
+  C:1339H         PUBLIC        _output_char
   D:008CH         PUBLIC        TH0
   D:008AH         PUBLIC        TL0
-  C:1337H         PUBLIC        _output_int
+  C:1325H         PUBLIC        _output_int
   D:00C8H         PUBLIC        T2CON
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 8
-
-
   D:00D0H         PUBLIC        PSW
   -------         PROC          _SLEEP
   D:0006H         SYMBOL        xms
@@ -429,158 +447,161 @@ SYMBOL TABLE OF MODULE:  .\output\paperCnt (?C_STARTUP)
   D:0004H         SYMBOL        i
   D:0002H         SYMBOL        j
   -------         ENDDO         
-  C:1279H         LINE#         3
-  C:1279H         LINE#         5
-  C:1283H         LINE#         6
-  C:1286H         LINE#         8
-  C:1291H         LINE#         9
-  C:1298H         LINE#         10
+  C:1267H         LINE#         3
+  C:1267H         LINE#         5
+  C:1271H         LINE#         6
+  C:1274H         LINE#         8
+  C:127FH         LINE#         9
+  C:1286H         LINE#         10
   -------         ENDPROC       _SLEEP
   -------         PROC          RESETT0
-  C:1353H         LINE#         11
-  C:1353H         LINE#         13
-  C:1356H         LINE#         14
-  C:1358H         LINE#         15
+  C:1341H         LINE#         11
+  C:1341H         LINE#         13
+  C:1344H         LINE#         14
+  C:1346H         LINE#         15
   -------         ENDPROC       RESETT0
   -------         PROC          _PROCESSINPUT
-  D:002CH         SYMBOL        a
-  C:120EH         LINE#         16
-  C:1210H         LINE#         17
-  C:1215H         LINE#         18
-  C:121EH         LINE#         19
-  C:1221H         LINE#         21
-  C:1226H         LINE#         22
-  C:122DH         LINE#         23
-  C:122FH         LINE#         26
-  C:1231H         LINE#         27
-  C:1236H         LINE#         28
-  C:123FH         LINE#         29
-  C:1249H         LINE#         31
-  C:1249H         LINE#         38
+  D:000AH         SYMBOL        a
+  C:11FCH         LINE#         16
+  C:11FEH         LINE#         17
+  C:1203H         LINE#         18
+  C:120CH         LINE#         19
+  C:120FH         LINE#         21
+  C:1214H         LINE#         22
+  C:121BH         LINE#         23
+  C:121DH         LINE#         26
+  C:121FH         LINE#         27
+  C:1224H         LINE#         28
+  C:122DH         LINE#         29
+  C:1237H         LINE#         31
+  C:1237H         LINE#         38
   -------         ENDPROC       _PROCESSINPUT
   -------         PROC          _OUTPUT_INT
   D:0006H         SYMBOL        num
   -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 9
+
+
   D:0001H         SYMBOL        result_pstr
   -------         ENDDO         
-  C:1337H         LINE#         39
-  C:1337H         LINE#         41
-  C:133AH         LINE#         42
-  C:133DH         LINE#         43
+  C:1325H         LINE#         39
+  C:1325H         LINE#         41
+  C:1328H         LINE#         42
+  C:132BH         LINE#         43
   -------         ENDPROC       _OUTPUT_INT
   -------         PROC          _INT2STRING
   D:0006H         SYMBOL        num
   -------         DO            
-  D:002DH         SYMBOL        num_str
-  D:0037H         SYMBOL        this
+  D:0018H         SYMBOL        num_str
+  D:0022H         SYMBOL        this
   D:0001H         SYMBOL        last
   D:0001H         SYMBOL        temp
   D:0082H         SYMBOL        i
   D:0002H         SYMBOL        b
   -------         ENDDO         
-  C:0EB8H         LINE#         47
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 9
-
-
-  C:0EB8H         LINE#         50
-  C:0EBBH         LINE#         51
-  C:0EBDH         LINE#         52
-  C:0EC0H         LINE#         53
-  C:0EC7H         LINE#         54
-  C:0ED9H         LINE#         55
-  C:0EDEH         LINE#         56
-  C:0EE1H         LINE#         57
-  C:0EE7H         LINE#         58
-  C:0EE9H         LINE#         59
-  C:0EE9H         LINE#         60
-  C:0EEBH         LINE#         61
-  C:0EFCH         LINE#         63
-  C:0F1BH         LINE#         64
-  C:0F23H         LINE#         65
-  C:0F35H         LINE#         66
-  C:0F3BH         LINE#         67
-  C:0F3EH         LINE#         68
-  C:0F44H         LINE#         69
+  C:0EAAH         LINE#         47
+  C:0EAAH         LINE#         50
+  C:0EADH         LINE#         51
+  C:0EAFH         LINE#         52
+  C:0EB2H         LINE#         53
+  C:0EB9H         LINE#         54
+  C:0ECBH         LINE#         55
+  C:0ED0H         LINE#         56
+  C:0ED3H         LINE#         57
+  C:0ED9H         LINE#         58
+  C:0EDBH         LINE#         59
+  C:0EDBH         LINE#         60
+  C:0EDDH         LINE#         61
+  C:0EEEH         LINE#         63
+  C:0F0DH         LINE#         64
+  C:0F15H         LINE#         65
+  C:0F27H         LINE#         66
+  C:0F2DH         LINE#         67
+  C:0F30H         LINE#         68
+  C:0F36H         LINE#         69
   -------         ENDPROC       _INT2STRING
   -------         PROC          _OUTPUT_CHAR
   D:0007H         SYMBOL        ch
-  C:134BH         LINE#         70
-  C:134BH         LINE#         71
-  C:134DH         LINE#         72
-  C:1350H         LINE#         73
-  C:1352H         LINE#         75
+  C:1339H         LINE#         70
+  C:1339H         LINE#         71
+  C:133BH         LINE#         72
+  C:133EH         LINE#         73
+  C:1340H         LINE#         75
   -------         ENDPROC       _OUTPUT_CHAR
   -------         PROC          _OUTPUT_STRING
   D:0001H         SYMBOL        pstr
-  C:12E6H         LINE#         76
-  C:12E6H         LINE#         77
-  C:12EBH         LINE#         79
-  C:12EDH         LINE#         80
-  C:12F0H         LINE#         81
-  C:12F2H         LINE#         82
-  C:12FBH         LINE#         84
+  C:12D4H         LINE#         76
+  C:12D4H         LINE#         77
+  C:12D9H         LINE#         79
+  C:12DBH         LINE#         80
+  C:12DEH         LINE#         81
+  C:12E0H         LINE#         82
+  C:12E9H         LINE#         84
   -------         ENDPROC       _OUTPUT_STRING
   -------         ENDMOD        UTILS
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 10
+
+
 
   -------         MODULE        KALMAN
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0F45H         PUBLIC        _update
-  C:1342H         PUBLIC        getXn
-  C:12B4H         PUBLIC        init_filter
-  D:0008H         PUBLIC        X_n
-  C:11CDH         PUBLIC        test_filter
-  D:000CH         PUBLIC        X_n_1
-  D:0010H         PUBLIC        Kn
-  D:0014H         PUBLIC        Pn
-  D:0018H         PUBLIC        Rn
-  C:12FCH         SYMBOL        _?ix1000
-  D:001CH         PUBLIC        Pn_1
-  C:12CDH         PUBLIC        predict
+  C:0F37H         PUBLIC        _update
+  C:1330H         PUBLIC        getXn
+  C:12A2H         PUBLIC        init_filter
+  D:0023H         PUBLIC        X_n
+  C:11BBH         PUBLIC        test_filter
+  D:0027H         PUBLIC        X_n_1
+  D:002BH         PUBLIC        Kn
+  D:002FH         PUBLIC        Pn
+  D:0033H         PUBLIC        Rn
+  C:12EAH         SYMBOL        _?ix1000
+  D:0037H         PUBLIC        Pn_1
+  C:12BBH         PUBLIC        predict
   -------         PROC          INIT_FILTER
-  C:12B4H         LINE#         4
-  C:12B4H         LINE#         6
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 10
-
-
-  C:12C0H         LINE#         7
-  C:12CCH         LINE#         11
+  C:12A2H         LINE#         4
+  C:12A2H         LINE#         6
+  C:12AEH         LINE#         7
+  C:12BAH         LINE#         11
   -------         ENDPROC       INIT_FILTER
   -------         PROC          PREDICT
-  C:12CDH         LINE#         12
-  C:12CDH         LINE#         13
-  C:12D9H         LINE#         14
-  C:12E5H         LINE#         16
+  C:12BBH         LINE#         12
+  C:12BBH         LINE#         13
+  C:12C7H         LINE#         14
+  C:12D3H         LINE#         16
   -------         ENDPROC       PREDICT
   -------         PROC          _UPDATE
-  D:002CH         SYMBOL        Z
-  C:0F45H         LINE#         17
-  C:0F4DH         LINE#         19
-  C:0F7BH         LINE#         20
-  C:0FA0H         LINE#         21
-  C:0FD1H         LINE#         23
+  D:0018H         SYMBOL        Z
+  C:0F37H         LINE#         17
+  C:0F3FH         LINE#         19
+  C:0F6DH         LINE#         20
+  C:0F92H         LINE#         21
+  C:0FC3H         LINE#         23
   -------         ENDPROC       _UPDATE
   -------         PROC          GETXN
-  C:1342H         LINE#         24
-  C:1342H         LINE#         25
-  C:134AH         LINE#         26
+  C:1330H         LINE#         24
+  C:1330H         LINE#         25
+  C:1338H         LINE#         26
   -------         ENDPROC       GETXN
   -------         PROC          TEST_FILTER
   -------         DO            
-  D:0038H         SYMBOL        measure
-  D:004CH         SYMBOL        i
+  D:003BH         SYMBOL        measure
+  D:004FH         SYMBOL        i
   -------         ENDDO         
-  C:11CDH         LINE#         28
-  C:11CDH         LINE#         29
-  C:11E0H         LINE#         31
-  C:11E3H         LINE#         32
-  C:11E8H         LINE#         33
-  C:11EBH         LINE#         34
-  C:11FAH         LINE#         36
-  C:120DH         LINE#         38
+  C:11BBH         LINE#         28
+  C:11BBH         LINE#         29
+  C:11CEH         LINE#         31
+  C:11D1H         LINE#         32
+  C:11D6H         LINE#         33
+  C:11D9H         LINE#         34
+  C:11E8H         LINE#         36
+  C:11FBH         LINE#         38
   -------         ENDPROC       TEST_FILTER
   -------         ENDMOD        KALMAN
 
   -------         MODULE        ?C?FPADD
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 11
+
+
   C:0807H         PUBLIC        ?C?FPADD
   C:0803H         PUBLIC        ?C?FPSUB
   -------         ENDMOD        ?C?FPADD
@@ -598,9 +619,6 @@ SYMBOL TABLE OF MODULE:  .\output\paperCnt (?C_STARTUP)
   C:0AA3H         PUBLIC        ?C?FCASTI
   C:0A9EH         PUBLIC        ?C?FCASTL
   -------         ENDMOD        ?C?FCAST
-
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:10:33  PAGE 11
-
 
   -------         MODULE        ?C?CASTF
   C:0ADCH         PUBLIC        ?C?CASTF
@@ -638,8 +656,11 @@ SYMBOL TABLE OF MODULE:  .\output\paperCnt (?C_STARTUP)
     SEGMENT: ?PR?TEST_FILTER?KALMAN
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 05CBH BYTE (72%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 05B9H BYTE (71%) *
 ******************************************************************************
 
-Program Size: data=90.0 xdata=0 code=2927
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/20/2021  21:54:01  PAGE 12
+
+
+Program Size: data=93.0 xdata=0 code=2909
 LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
