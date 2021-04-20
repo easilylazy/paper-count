@@ -11,6 +11,9 @@ sbit led1=P1^0 ;
 sbit watch=P1^2;
 sbit input=P3^7;
 sbit ticker=P0^0;	
+sbit debugMode=P3^3;
+sbit startMode=P3^2;
+sbit testPin=P0^0;
 void init(){
  	TMOD=0X25;		 //T1 TIMER T0 COUNT
 	TH1=0XFD;
@@ -31,6 +34,11 @@ void init(){
 	ET0=1;		  // T0溢出中断，精确计数次数	
 	ET2=1;		  // 允许T2中断，以通过自动重装计时
 
+	EX1=1;	// 外部中断1：校正模式
+	EX0=1;	// 外部中断0：启动模式
+
+	IT1=0;
+	IT0=1;
 
 }
 
@@ -83,6 +91,9 @@ void main(void){
 
 				output_string("TL0: ");
 				output_int(TL0);
+			}else if(a=='t'){
+			 	output_string(" V ");
+				output_int(testPin);
 			}
 						
 			ES=1;
@@ -129,6 +140,20 @@ void overflow() interrupt 1{
 	output_string(" OVERFLOW ");
 	round++;	
 	TF1=0;	 
+}
+// INT0下降沿或低电平，启动
+void start() interrupt 0{
+	sleep(10);
+	output_string(" start mode ");
+	while(!INT0);
+	output_string(" start ");
+	
+}
+// INT1下降沿或低电平，校正
+void debug() interrupt 2{
+	output_string(" debug mode ");
+	while(!INT1);
+	output_string(" debug  ");
 }
 
 void refresh() interrupt 4{

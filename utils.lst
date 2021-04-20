@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   UTILS                                                                 04/20/2021 17:22:22 PAGE 1   
+C51 COMPILER V9.00   UTILS                                                                 04/20/2021 19:49:44 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE UTILS
@@ -62,7 +62,7 @@ line level    source
   52   1              for(i=1;;i*=10){                
   53   2                      last=this/10;
   54   2                      num_str[b]=this-last*10+48;
-C51 COMPILER V9.00   UTILS                                                                 04/20/2021 17:22:22 PAGE 2   
+C51 COMPILER V9.00   UTILS                                                                 04/20/2021 19:49:44 PAGE 2   
 
   55   2                      b++;
   56   2                      if(last==0){
