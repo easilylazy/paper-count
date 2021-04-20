@@ -14,6 +14,12 @@ sbit ticker=P0^0;
 sbit debugMode=P3^3;
 sbit startMode=P3^2;
 sbit testPin=P0^0;
+
+enum Mode{
+	INIT=0,DEBUG,START
+};
+
+enum Mode appMode=INIT;
 void init(){
  	TMOD=0X25;		 //T1 TIMER T0 COUNT
 	TH1=0XFD;
@@ -66,8 +72,6 @@ void main(void){
 	unsigned int period =5;
 	double freq;
 
-	
-	
 	init();
 	flag=0;
 	//test_filter();	
@@ -94,6 +98,10 @@ void main(void){
 			}else if(a=='t'){
 			 	output_string(" V ");
 				output_int(testPin);
+			 	output_string(" mode ");
+				output_int(appMode);
+
+
 			}
 						
 			ES=1;
@@ -146,6 +154,7 @@ void start() interrupt 0{
 	sleep(10);
 	output_string(" start mode ");
 	while(!INT0);
+	appMode=START;
 	output_string(" start ");
 	
 }
@@ -153,6 +162,7 @@ void start() interrupt 0{
 void debug() interrupt 2{
 	output_string(" debug mode ");
 	while(!INT1);
+	appMode=DEBUG;
 	output_string(" debug  ");
 }
 
