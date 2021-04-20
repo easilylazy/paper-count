@@ -6,7 +6,7 @@ uchar flag,a,i;
 unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
 unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
-
+unsigned int table[10];
 sbit led1=P1^0 ;
 sbit watch=P1^2;
 sbit input=P3^7;
@@ -16,7 +16,7 @@ sbit startMode=P3^2;
 sbit testPin=P0^0;
 
 enum Mode{
-	INIT=0,DEBUG,START
+	INIT=0,DEBUG,START,NORMAL
 };
 
 enum Mode appMode=INIT;
@@ -95,13 +95,39 @@ void main(void){
 
 		}
 		if(appMode==DEBUG){
-			;
+			unsigned int initValue;
+			for(initValue=2;initValue<10;initValue*=2){
+				output_string(" PUT PAPER*");
+				output_int(initValue);
+				output_string(" and print c");
+
+
+				while(1){
+
+
+
+					ES=0;
+					processInput(a);
+					if(a=='c'){
+						table[initValue]=countFrequency();
+	
+						output_string("table[initValue]: ");
+						output_int(table[initValue]);
+						ES=1;
+						break;
+					}
+								
+					ES=1;	
+				}
+			}
+			appMode=NORMAL;
 		}
 
 		if(appMode==START){
 			freq=countFrequency();
 			output_string(" #RESULT# ");
 			output_int(freq);
+			appMode=NORMAL;
 		}
 		
 	}
