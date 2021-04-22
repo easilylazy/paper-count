@@ -119,20 +119,20 @@ void main(void){
 				table[8]=16;
 				table[10]=18;
 
-				// while(1){
-				// 	ES=0;
-				// 	processInput(a);
-				// 	if(a=='c'){
-				// 		table[initValue]=countFrequency();
+				while(1){
+					ES=0;
+					processInput(a);
+					if(a=='c'){
+						table[initValue]=countFrequency();
 	
-				// 		output_string("table[initValue]: ");
-				// 		output_int((int)table[initValue]);
-				// 		ES=1;
-				// 		break;
-				// 	}
+						output_string("table[initValue]: ");
+						output_int((int)table[initValue]);
+						ES=1;
+						break;
+					}
 								
-				// 	ES=1;	
-				// }
+					ES=1;	
+				}
 			}
 			// 进行拟合、获取各纸张对应函数
 			output_string(" table ");
