@@ -13,40 +13,40 @@ void resetT0(){
 	TH0=0X00;
 	TL0=0X00;
 }
-void processInput(unsigned char a){  
-	if (a=='r'){				
-		output_string("RESET ");
-		resetT0();
+// void processInput(unsigned char a){  
+// 	if (a=='r'){				
+// 		output_string("RESET ");
+// 		resetT0();
 		
-	}  else if (a=='d'){
-		output_int(TH0);
-		output_int(TL0);	
+// 	}  else if (a=='d'){
+// 		output_int(TH0);
+// 		output_int(TL0);	
 
 		
-	}
-	else if (a=='e'){
-		output_string("p3.7 ");
-		output_int(P3^7);
+// 	}
+// 	else if (a=='e'){
+// 		output_string("p3.7 ");
+// 		output_int(P3^7);
 	
-	}
-//	else {
-//		//output_string("got it! ");	
-//		SBUF=a;
-//		while(!TI);
-//		TI=0;		
-//	}
-}
-void output_int(unsigned int num){				
-	unsigned char *result_pstr;
-	result_pstr=int2string(num);
-	output_string(result_pstr);
-	output_char(' ');					
+// 	}
+// //	else {
+// //		//output_string("got it! ");	
+// //		SBUF=a;
+// //		while(!TI);
+// //		TI=0;		
+// //	}
+// }
+// void output_int(unsigned int num){				
+// 	unsigned char *result_pstr;
+// 	result_pstr=int2string(num);
+// 	output_string(result_pstr);
+// 	output_char(' ');					
 				
 
-}
+// }
 unsigned char* int2string(int num){
 	unsigned char num_str[10],this,last,temp;
-	// Ò»Î»Ò»Î»±éÀú£¬ÏÖÔÚÊÇµ¹Ðò
+	// Ò»Î»Ò»Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½
 	int i,b=0;
 	this=num;
 	for(i=1;;i*=10){ 		
@@ -67,18 +67,18 @@ unsigned char* int2string(int num){
 	}
 	return &num_str; 	
 }
-void output_char(unsigned char ch){
-	SBUF=ch;
-	while(!TI);
-	TI=0;
+// void output_char(unsigned char ch){
+// 	SBUF=ch;
+// 	while(!TI);
+// 	TI=0;
 
-}
-void output_string(unsigned char* pstr){
-	for(;*pstr!='\0';pstr++){
+// }
+// void output_string(unsigned char* pstr){
+// 	for(;*pstr!='\0';pstr++){
 	   
-	   SBUF=*pstr;
-       while(!TI);
-	   TI=0;
-	}
-	return;
-}
+// 	   SBUF=*pstr;
+//        while(!TI);
+// 	   TI=0;
+// 	}
+// 	return;
+// }

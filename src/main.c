@@ -15,6 +15,84 @@ sbit debugMode=P3^3;
 sbit startMode=P3^2;
 sbit testPin=P0^0;
 
+sbit CS0=P2^7;
+sbit KEY1=P2^4;		//确定
+sbit KEY2=P2^5;
+sbit KEY3=P2^6;
+sbit KEY4=P2^7;
+unsigned int BIAS;
+unsigned char code seg[18]={0xc0,0xf9,0xa4,0xb0,
+                       0x99,0x92,0x82,0xf8,
+					   0x80,0x90,  //0~9
+					   0x88,0x83,  // ABCDEF
+					   0xc6,0xa1,0x86,0x8e,0x7f,
+					   0xff //空					  
+					   };
+
+unsigned char an[6]={2,0,2,1,4,3};
+void Display(unsigned char *ptemp)
+{
+	unsigned char i,j;
+	WR=0,RD=0;
+	for(i=0;i<0x60;i=i+0x10)
+	{
+		P2=0xA0+i;
+		P0=seg[*(ptemp++)+BIAS];
+		for(j=0;j<100;j++);   
+		P0=0xFF;
+	}
+	CS0=0;
+}
+unsigned char ReadKeys(){
+	// unsigned char i;
+	// //循环扫描4个按键
+	// //P2 0xA0
+	// bit key;
+
+
+	if(KEY1==0){
+			an[4]=9;
+			sleep(100);
+			while (!KEY1);//等待按键释放
+			return 0;//返回第几个按键被按下
+	}
+	return 5;
+}
+void JudgeKey(unsigned char key){
+	switch (key)
+	{
+	case 0:
+		an[1]=0;
+		/* code */
+		break;
+	case 1:
+		an[1]=1;
+		break;
+	
+	default:
+		//an[1]=8;
+		break;
+	}
+}
+void displayDebug(){
+ 	an[0]=17;
+ 	an[1]=17;
+ 	an[2]=17;
+ 	an[3]=17;
+ 	an[4]=13;
+ 	an[5]=11;
+}
+
+void displayStart(){
+ 	an[0]=17;
+ 	an[1]=17;
+ 	an[2]=17;
+ 	an[3]=17;
+ 	an[4]=11;
+ 	an[5]=14;
+}
+
+
 enum Mode{
 	INIT=0,DEBUG,START,NORMAL
 };
@@ -44,7 +122,7 @@ void init(){
 	EX0=1;	// 外部中断0：启动模式
 
 	IT1=0;
-	IT0=1;
+	IT0=0;
 
 }
 
@@ -54,6 +132,7 @@ void watchChange();
 
 // 测量频率
 int countFrequency();
+
 
 
 void simpleFit();
@@ -71,14 +150,39 @@ void simpleFit(){
 void main(void){
 
 	int freq;
+	unsigned char key;
 
 	init();
 	flag=0;
 	
 	while(1){
+
+
+
+		//led
+		Display(an);  //数码管显示
+
+
+		//扫描按键
+		key=ReadKeys();
+	
+		// add 通过不同的按键行使不同的功能
+
+		if (key!=5){
+			//通过数码管显示按键
+			an[0]=key;
+			//JudgeKey(key);
+		}
+
+
+
+
+
 		//input=~input;
 		led1=0;
 		
+		//
+		/*
 		if (flag==1){
 			ES=0;
 			processInput(a);
@@ -107,12 +211,20 @@ void main(void){
 			flag=0;
 
 		}
+		*/
 		if(appMode==DEBUG){
+			
+
+
 			unsigned int initValue;
+			unsigned char key; 	
+
 			for(initValue=2;initValue<10;initValue*=2){
-				output_string(" PUT PAPER*");
-				output_int(initValue);
-				output_string(" and print c");
+
+
+				// output_string(" PUT PAPER*");
+				// output_int(initValue);
+				// output_string(" and print c");
 
 				table[2]=7;
 				table[4]=11;
@@ -121,40 +233,27 @@ void main(void){
 
 				while(1){
 					ES=0;
-					processInput(a);
-					if(a=='c'){
-						table[initValue]=countFrequency();
+					//确认放纸 并测量
+					// processInput(a);
+					// if(a=='c'){
+					// 	table[initValue]=countFrequency();
 	
-						output_string("table[initValue]: ");
-						output_int((int)table[initValue]);
-						ES=1;
-						break;
-					}
+					// 	output_string("table[initValue]: ");
+					// 	output_int((int)table[initValue]);
+					// 	ES=1;
+					// 	break;
+					// }
 								
 					ES=1;	
 				}
 			}
 			// 进行拟合、获取各纸张对应函数
-			output_string(" table ");
-			for(i=0;i<=10;i++){
-				output_string(" -");
-				output_int(i);
-				output_int((int)table[i]);
-			}
-			simpleFit();
-			output_string(" table ");
-			for(i=0;i<=10;i++){
-				output_string(" -");
-				output_int(i);
-				output_int((int)table[i]);
-			}
+			// simpleFit();
 			appMode=NORMAL;
 		}
 
 		if(appMode==START){
 			freq=countFrequency();
-			output_string(" #RESULT# ");
-			output_int(freq);
 			appMode=NORMAL;
 		}
 		
@@ -180,7 +279,7 @@ int countFrequency(){
 	unsigned int last_beat=0,seconds=0;
 	unsigned int cnt_sum;//,foo=0X0001,bar=0X0002;
 	unsigned int period =2;
-	double freq;
+	//double freq;
 	unsigned int iteration;
 	//test_filter();	
 	init_filter();
@@ -199,22 +298,22 @@ int countFrequency(){
 					cnt_sum= 256*round+TH0;
 					//(TH0<<8)+TL0;
 					
-					freq=cnt_sum;//(double)cnt_sum/period;
+					//freq=cnt_sum;//(double)cnt_sum/period;
 
-					output_string("sum: ");
-					output_int(cnt_sum);
+					// output_string("sum: ");
+					// output_int(cnt_sum);
 
 					// output_string("freq: ");
 					// output_int((int)freq);
 
-					output_string("filter: ");
-					output_int((int)getXn());
+					// output_string("filter: ");
+					// output_int((int)getXn());
 
 					// output_string("round: ");
 					// output_int(round);
 				
 					predict();
-					update(freq);
+					update(cnt_sum);
 					
 					// reset
 					resetT0();
@@ -235,25 +334,25 @@ int countFrequency(){
 
 // T0 溢出， 统计+1
 void overflow() interrupt 1{
-	output_string(" OVERFLOW ");
+	//output_string(" OVERFLOW ");
 	round++;	
 	TF1=0;	 
 }
 // INT0下降沿或低电平，启动
 void start() interrupt 0{
+	displayStart();
 	sleep(10);
-	output_string(" start mode ");
 	while(!INT0);
-	appMode=START;
-	output_string(" start ");
-	
+	//appMode=START;
+	an[0]=0;
 }
 // INT1下降沿或低电平，校正
 void debug() interrupt 2{
-	output_string(" debug mode ");
+	displayDebug();
+	sleep(10);
 	while(!INT1);
-	appMode=DEBUG;
-	output_string(" debug  ");
+	//appMode=DEBUG;
+	an[0]=0;
 }
 
 void refresh() interrupt 4{
