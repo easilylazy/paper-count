@@ -8,20 +8,6 @@ Project File Date:  04/01/2021
 
 <h2>Output:</h2>
 Build target 'Target 1'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_JUDGEKEY?MAIN
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?SIMPLEFIT?MAIN
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_INT2STRING?UTILS
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?_INT2STRING?UTILS
-    LENGTH:  000BH
-Program Size: data=137.0 xdata=0 code=2781
-Target not created
-Build target 'Target 1'
 assembling STARTUP.A51...
 compiling main.c...
 compiling utils.c...
@@ -33,9 +19,12 @@ linking...
     SEGMENT: ?PR?SIMPLEFIT?MAIN
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_INT2STRING?UTILS
-Program Size: data=9.0 xdata=131 code=3093
-creating hex file from ".\output\paperCnt"...
-".\output\paperCnt" - 0 Error(s), 3 Warning(s).
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_INT2STRING?UTILS
+    LENGTH:  000BH
+Program Size: data=139.0 xdata=0 code=2930
+Target not created
 Build target 'Target 1'
 compiling main.c...
 linking...
@@ -45,6 +34,62 @@ linking...
     SEGMENT: ?PR?SIMPLEFIT?MAIN
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_INT2STRING?UTILS
-Program Size: data=9.0 xdata=133 code=3265
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_INT2STRING?UTILS
+    LENGTH:  000BH
+Program Size: data=130.0 xdata=0 code=2623
+Target not created
+Build target 'Target 1'
+compiling main.c...
+compiling utils.c...
+compiling kalman.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_JUDGEKEY?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SIMPLEFIT?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_INT2STRING?UTILS
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_INT2STRING?UTILS
+    LENGTH:  000BH
+Program Size: data=130.0 xdata=0 code=2626
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_JUDGEKEY?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SIMPLEFIT?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_INT2STRING?UTILS
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_INT2STRING?UTILS
+    LENGTH:  000BH
+Program Size: data=130.0 xdata=0 code=2626
+Target not created
+Build target 'Target 1'
+compiling main.c...
+compiling utils.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_JUDGEKEY?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SIMPLEFIT?MAIN
+Program Size: data=119.0 xdata=0 code=2413
 creating hex file from ".\output\paperCnt"...
-".\output\paperCnt" - 0 Error(s), 3 Warning(s).
+".\output\paperCnt" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_JUDGEKEY?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SIMPLEFIT?MAIN
+Program Size: data=128.0 xdata=0 code=2738
+creating hex file from ".\output\paperCnt"...
+".\output\paperCnt" - 0 Error(s), 2 Warning(s).

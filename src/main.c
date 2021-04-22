@@ -10,10 +10,9 @@ unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
 unsigned int table[11];	//存放不同次校正对应的数据
 unsigned int paperNum[MAX_DEBUG]; //存放校正时的纸张数
 unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
-sbit led1=P1^0 ;
+// sbit led1=P1^0 ;
 sbit watch=P1^2;
 sbit input=P3^7;
-sbit ticker=P0^0;	
 sbit debugMode=P3^3;
 sbit startMode=P3^2;
 sbit testPin=P0^0;
@@ -213,7 +212,7 @@ void main(void){
 
 
 		//input=~input;
-		led1=0;
+		// led1=0;
 		
 		//
 		/*

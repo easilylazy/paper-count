@@ -44,29 +44,29 @@ void resetT0(){
 				
 
 // }
-unsigned char* int2string(int num){
-	unsigned char num_str[10],this,last,temp;
-	// һλһλ�����������ǵ���
-	int i,b=0;
-	this=num;
-	for(i=1;;i*=10){ 		
-		last=this/10;
-		num_str[b]=this-last*10+48;
-		b++;
-	 	if(last==0){
-			num_str[b]='\0';
-			break;
-		}
-		this=last;
-	}
-	// reverse
-	for(i=0;i<b/2;i++){
-		temp=num_str[i];
-		num_str[i]=num_str[b-i-1];
-		num_str[b-i-1]=temp;
-	}
-	return &num_str; 	
-}
+// unsigned char* int2string(int num){
+// 	unsigned char num_str[10],this,last,temp;
+// 	// һλһλ�����������ǵ���
+// 	int i,b=0;
+// 	this=num;
+// 	for(i=1;;i*=10){ 		
+// 		last=this/10;
+// 		num_str[b]=this-last*10+48;
+// 		b++;
+// 	 	if(last==0){
+// 			num_str[b]='\0';
+// 			break;
+// 		}
+// 		this=last;
+// 	}
+// 	// reverse
+// 	for(i=0;i<b/2;i++){
+// 		temp=num_str[i];
+// 		num_str[i]=num_str[b-i-1];
+// 		num_str[b-i-1]=temp;
+// 	}
+// 	return &num_str; 	
+// }
 // void output_char(unsigned char ch){
 // 	SBUF=ch;
 // 	while(!TI);
