@@ -75,6 +75,7 @@ void waitKey(){
 
 	key=ReadKeys();
 	while(key==5){
+		Display(an);
 		key=ReadKeys();
 	}
 				// flow={10,17,1,1,1,1};
