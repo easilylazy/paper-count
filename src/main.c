@@ -2,11 +2,14 @@
 # include "include/utils.h"
 # include "include/kalman.h" 
 # define uint unsigned int
+# define MAX_DEBUG 5
 uchar flag,a,i;
 unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
 unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
-float table[11];
+unsigned int table[11];	//存放不同次校正对应的数据
+unsigned int paperNum[MAX_DEBUG]; //存放校正时的纸张数
+unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
 sbit led1=P1^0 ;
 sbit watch=P1^2;
 sbit input=P3^7;
@@ -30,6 +33,7 @@ unsigned char code seg[18]={0xc0,0xf9,0xa4,0xb0,
 					   };
 
 unsigned char an[6]={2,0,2,1,4,3};
+float K,b; // paperNum=k*frequency+b
 void Display(unsigned char *ptemp)
 {
 	unsigned char i,j;
@@ -175,6 +179,8 @@ void simpleFit(){
     }
 }
 
+
+
 void main(void){
 
 	int freq;
@@ -245,52 +251,62 @@ void main(void){
 
 
 			unsigned int initValue;
-			unsigned char key; 
-			//unsigned char flow[6]={0,0,0,0,0,0};	
+			unsigned char i; 
+		
 			displayInt(0,0,0,0,0,0);
 			//sleep(2000);	
 			waitKey();
-
+				// table[2]=7;
+				// table[4]=11;
+				// table[8]=16;
+				// table[10]=18;
+			i=0;
 			for(initValue=2;initValue<10;initValue*=2){
 
 				displayInt(10,17,17,17,0,initValue);
 				waitKey();
-
-				// output_string(" PUT PAPER*");
-				// output_int(initValue);
-				// output_string(" and print c");
-
-				table[2]=7;
-				table[4]=11;
-				table[8]=16;
-				table[10]=18;
-
-				// while(1){
-				// 	ES=0;
-				// 	//确认放纸 并测量
-				// 	// processInput(a);
-				// 	// if(a=='c'){
-				// 	// 	table[initValue]=countFrequency();
-	
-				// 	// 	output_string("table[initValue]: ");
-				// 	// 	output_int((int)table[initValue]);
-				// 	// 	ES=1;
-				// 	// 	break;
-				// 	// }
-								
-				// 	ES=1;	
-				// }
-
+				table[initValue]=countFrequency();
+				paperNum[i]=initValue;
+				frequency[i]=table[initValue];
 				displayInt(10,1,1,1,1,1);
 				waitKey();
+				i++;
 			}
 			// 进行拟合、获取各纸张对应函数
+
+			//最小二乘法
+			{
+				{  
+					
+					unsigned int t1=0, t2=0, t3=0, t4=0;
+					unsigned char totalSize=i;
+					
+					for(; i>0; i--)  
+					{  
+						t1 += frequency[i]*frequency[i];  
+						t2 += frequency[i];  
+						t3 += frequency[i]*paperNum[i];  
+						t4 += paperNum[i];  
+					}  
+					K = (t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1   
+					b = (t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
+				}
+			}
 			// simpleFit();
 			appMode=NORMAL;
 		}
 
 		if(appMode==START){
 			freq=countFrequency();
+			paperNum[0]=K*freq+b;
+			if(paperNum[0]<16){
+				displayInt(0,0,0,0,0,paperNum[0]);
+			}else{
+				displayInt(0,0,0,0,0,0);
+			}
+			waitKey();
+
+			
 			appMode=NORMAL;
 		}
 		

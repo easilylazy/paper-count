@@ -1,1 +1,1 @@
-"src\main.c" BROWSE DEBUG OBJECTEXTEND PRINT(.\main.lst) OBJECT(.\output\main.obj)
+"src\main.c" COMPACT BROWSE DEBUG OBJECTEXTEND PRINT(.\main.lst) OBJECT(.\output\main.obj)
