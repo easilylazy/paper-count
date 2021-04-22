@@ -17,9 +17,9 @@ sbit testPin=P0^0;
 
 sbit CS0=P2^7;
 sbit KEY1=P2^4;		//确定
-sbit KEY2=P2^5;
-sbit KEY3=P2^6;
-sbit KEY4=P2^7;
+// sbit KEY2=P2^5;
+// sbit KEY3=P2^6;
+// sbit KEY4=P2^7;
 unsigned int BIAS;
 unsigned char code seg[18]={0xc0,0xf9,0xa4,0xb0,
                        0x99,0x92,0x82,0xf8,
@@ -43,6 +43,16 @@ void Display(unsigned char *ptemp)
 	}
 	CS0=0;
 }
+void displayInt(unsigned char i0,unsigned char i1,unsigned char i2,unsigned char i3,unsigned char i4,unsigned char i5){
+	an[0]=i0;
+ 	an[1]=i1;
+ 	an[2]=i2;
+ 	an[3]=i3;
+ 	an[4]=i4;
+ 	an[5]=i5;
+	Display(an);
+
+}
 unsigned char ReadKeys(){
 	// unsigned char i;
 	// //循环扫描4个按键
@@ -57,6 +67,23 @@ unsigned char ReadKeys(){
 			return 0;//返回第几个按键被按下
 	}
 	return 5;
+}
+void waitKey(){
+				// 	flow={10,17,17,17,0,initValue};
+				// Display(flow);
+	unsigned char key;
+
+	key=ReadKeys();
+	while(key==5){
+		key=ReadKeys();
+	}
+				// flow={10,17,1,1,1,1};
+				// Display(flow);
+				// sleep(200);
+				// key=ReadKeys();
+				// while(key==5){
+				// 	key=ReadKeys();
+				// }
 }
 void JudgeKey(unsigned char key){
 	switch (key)
@@ -217,10 +244,16 @@ void main(void){
 
 
 			unsigned int initValue;
-			unsigned char key; 	
+			unsigned char key; 
+			//unsigned char flow[6]={0,0,0,0,0,0};	
+			displayInt(0,0,0,0,0,0);
+			//sleep(2000);	
+			waitKey();
 
 			for(initValue=2;initValue<10;initValue*=2){
 
+				displayInt(10,17,17,17,0,initValue);
+				waitKey();
 
 				// output_string(" PUT PAPER*");
 				// output_int(initValue);
@@ -231,21 +264,24 @@ void main(void){
 				table[8]=16;
 				table[10]=18;
 
-				while(1){
-					ES=0;
-					//确认放纸 并测量
-					// processInput(a);
-					// if(a=='c'){
-					// 	table[initValue]=countFrequency();
+				// while(1){
+				// 	ES=0;
+				// 	//确认放纸 并测量
+				// 	// processInput(a);
+				// 	// if(a=='c'){
+				// 	// 	table[initValue]=countFrequency();
 	
-					// 	output_string("table[initValue]: ");
-					// 	output_int((int)table[initValue]);
-					// 	ES=1;
-					// 	break;
-					// }
+				// 	// 	output_string("table[initValue]: ");
+				// 	// 	output_int((int)table[initValue]);
+				// 	// 	ES=1;
+				// 	// 	break;
+				// 	// }
 								
-					ES=1;	
-				}
+				// 	ES=1;	
+				// }
+
+				displayInt(10,1,1,1,1,1);
+				waitKey();
 			}
 			// 进行拟合、获取各纸张对应函数
 			// simpleFit();
@@ -349,9 +385,9 @@ void start() interrupt 0{
 // INT1下降沿或低电平，校正
 void debug() interrupt 2{
 	displayDebug();
-	sleep(10);
+	sleep(100);
 	while(!INT1);
-	//appMode=DEBUG;
+	appMode=DEBUG;
 	an[0]=0;
 }
 
