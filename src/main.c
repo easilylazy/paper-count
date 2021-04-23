@@ -11,8 +11,8 @@ unsigned int table[11];	//存放不同次校正对应的数据
 unsigned int paperNum[MAX_DEBUG]; //存放校正时的纸张数
 unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
 // sbit led1=P1^0 ;
-sbit watch=P1^2;	//不需要连接外设，根据input产生电平变化
-sbit input=P3^7;	//读取555输入频率，接入计数器T0(P3.4)
+sbit watch=P1^2;	//根据input产生电平变化，接入计数器T0(P3.4)
+sbit input=P1^1;	//读取555输入频率
 sbit debugMode=P3^3;//INT1
 sbit startMode=P3^2;//INT0
 sbit testPin=P0^0;	//测试电平
@@ -253,16 +253,16 @@ void main(void){
 			for(initValue=2;initValue<10;initValue*=2){
 
 				displayInt(10,17,17,17,0,initValue);
-				waitKey();
-				table[initValue]=countFrequency();
+				// waitKey();
+				table[initValue]=4*initValue;//countFrequency();
 				paperNum[i]=initValue;
 				frequency[i]=table[initValue];
 				displayInt(10,1,1,1,1,1);
-				waitKey();
+				// waitKey();
 				i++;
 			}
 			// 进行拟合、获取各纸张对应函数
-
+			waitKey();
 			//最小二乘法
 			{
 				{  
@@ -277,8 +277,25 @@ void main(void){
 						t3 += frequency[i]*paperNum[i];  
 						t4 += paperNum[i];  
 					}  
-					K = (t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1   
-					b = (t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
+					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					// waitKey();
+					// t1=t2;
+					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					// waitKey();
+					// t1=t3;
+					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					// waitKey();
+					// t1=t4;
+					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					// waitKey();
+					// K = (t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
+					// t1=K*10;
+					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					// waitKey();
+					// b = (t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
+					// t1=b*10;
+					// displayInt(2,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					// waitKey();
 				}
 			}
 			// simpleFit();
@@ -308,7 +325,7 @@ void watchChange(){
 		 //if(input==0){	   
 		  	watch=~watch;
 			while(!input); // wait for key 
-
+			// sleep(200);
 			watch=~watch;
 //			for(i=0;i<0;i++){
 //						watch=~watch;
@@ -325,10 +342,15 @@ int countFrequency(){
 	unsigned int iteration;
 	//test_filter();	
 	init_filter();
+	displayInt(17,17,17,0,0,1);
+	waitKey();
 
 	for(iteration=0;iteration<6;){
 		//一直监测翻转情况
 		watchChange();
+		// displayInt(iteration,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
+		// displayInt(iteration,17,17,beat/100,(beat/10-beat/100*10),beat%10);
+		
 			if(last_beat!=beat&&beat%20==1){
 				
 				ES=0;
@@ -339,9 +361,10 @@ int countFrequency(){
 
 					cnt_sum= 256*round+TH0;
 					//(TH0<<8)+TL0;
-					displayInt(1,17,17,TH1/100,(TH1/10-TH1/100*10),TH1%10);
 					displayInt(0,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
-					
+					waitKey();
+					displayInt(0,17,17,TL0/100,(TL0/10-TL0/100*10),TL0%10);
+					waitKey();
 					//freq=cnt_sum;//(double)cnt_sum/period;
 
 					// output_string("sum: ");
@@ -385,9 +408,9 @@ void overflow() interrupt 1{
 // INT0下降沿或低电平，启动
 void start() interrupt 0{
 	displayStart();
-	sleep(10);
+	sleep(100);
 	while(!INT0);
-	//appMode=START;
+	appMode=START;
 	an[0]=0;
 }
 // INT1下降沿或低电平，校正
