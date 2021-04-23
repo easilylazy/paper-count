@@ -2,7 +2,7 @@
 # include "include/utils.h"
 # include "include/kalman.h" 
 # define uint unsigned int
-# define MAX_DEBUG 5
+# define MAX_DEBUG 3
 uchar flag,a,i;
 unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
@@ -22,7 +22,6 @@ sbit KEY1=P2^4;		//确定按键
 // sbit KEY2=P2^5;
 // sbit KEY3=P2^6;
 // sbit KEY4=P2^7;
-unsigned int BIAS;
 unsigned char code seg[18]={0xc0,0xf9,0xa4,0xb0,
                        0x99,0x92,0x82,0xf8,
 					   0x80,0x90,  //0~9
@@ -40,7 +39,7 @@ void Display(unsigned char *ptemp)
 	for(i=0;i<0x60;i=i+0x10)
 	{
 		P2=0xA0+i;
-		P0=seg[*(ptemp++)+BIAS];
+		P0=seg[*(ptemp++)];
 		for(j=0;j<100;j++);   
 		P0=0xFF;
 	}
@@ -72,8 +71,6 @@ unsigned char ReadKeys(){
 	return 5;
 }
 void waitKey(){
-				// 	flow={10,17,17,17,0,initValue};
-				// Display(flow);
 	unsigned char key;
 
 	key=ReadKeys();
@@ -81,13 +78,6 @@ void waitKey(){
 		Display(an);
 		key=ReadKeys();
 	}
-				// flow={10,17,1,1,1,1};
-				// Display(flow);
-				// sleep(200);
-				// key=ReadKeys();
-				// while(key==5){
-				// 	key=ReadKeys();
-				// }
 }
 void JudgeKey(unsigned char key){
 	switch (key)
@@ -168,7 +158,7 @@ int countFrequency();
 
 void simpleFit();
 void simpleFit(){
-    int i;
+    unsigned char i;
     for(i=6;i<10;i+=4){
         table[i]=(table[i+2]+table[i-2])/2;
     }
@@ -249,7 +239,7 @@ void main(void){
 			
 
 
-			unsigned int initValue;
+			unsigned char initValue;
 			unsigned char i; 
 		
 			displayInt(0,0,0,0,0,0);
@@ -349,6 +339,8 @@ int countFrequency(){
 
 					cnt_sum= 256*round+TH0;
 					//(TH0<<8)+TL0;
+					displayInt(1,17,17,TH1/100,(TH1/10-TH1/100*10),TH1%10);
+					displayInt(0,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
 					
 					//freq=cnt_sum;//(double)cnt_sum/period;
 
