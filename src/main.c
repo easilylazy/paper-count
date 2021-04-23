@@ -11,14 +11,14 @@ unsigned int table[11];	//存放不同次校正对应的数据
 unsigned int paperNum[MAX_DEBUG]; //存放校正时的纸张数
 unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
 // sbit led1=P1^0 ;
-sbit watch=P1^2;
-sbit input=P3^7;
-sbit debugMode=P3^3;
-sbit startMode=P3^2;
-sbit testPin=P0^0;
+sbit watch=P1^2;	//不需要连接外设，根据input产生电平变化
+sbit input=P3^7;	//读取555输入频率，接入计数器T0(P3.4)
+sbit debugMode=P3^3;//INT1
+sbit startMode=P3^2;//INT0
+sbit testPin=P0^0;	//测试电平
 
-sbit CS0=P2^7;
-sbit KEY1=P2^4;		//确定
+sbit CS0=P2^7;	//74LS138锁存器使能端
+sbit KEY1=P2^4;		//确定按键
 // sbit KEY2=P2^5;
 // sbit KEY3=P2^6;
 // sbit KEY4=P2^7;
