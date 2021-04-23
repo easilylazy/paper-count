@@ -10,12 +10,7 @@ unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
 unsigned int table[11];	//存放不同次校正对应的数据
 unsigned int paperNum[MAX_DEBUG]; //存放校正时的纸张数
 unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
-// sbit led1=P1^0 ;
-sbit watch=P1^2;	//根据input产生电平变化，接入计数器T0(P3.4)
-sbit input=P1^1;	//读取555输入频率
-sbit debugMode=P3^3;//INT1
-sbit startMode=P3^2;//INT0
-sbit testPin=P0^0;	//测试电平
+//直接把555输入接入计数器T0(P3.4)
 
 sbit CS0=P2^7;	//74LS138锁存器使能端
 sbit KEY1=P2^4;		//确定按键
@@ -147,8 +142,6 @@ void init(){
 
 }
 
-// 记录输出电平变化（即电容转换对应的频率）
-void watchChange();
 
 
 // 测量频率
@@ -196,48 +189,7 @@ void main(void){
 			an[0]=key;
 			//JudgeKey(key);
 		}
-
-
-
-
-
-		//input=~input;
-		// led1=0;
-		
-		//
-		/*
-		if (flag==1){
-			ES=0;
-			processInput(a);
-			if(a=='p'){
-				output_string("TH0: ");
-				output_int(TH0);
-
-				output_string("TH0*256: ");
-				output_int(TH0*256);
-
-				output_string("TH0<<: ");
-				output_int(TH0>>8);
-
-				output_string("TL0: ");
-				output_int(TL0);
-			}else if(a=='t'){
-			 	output_string(" V ");
-				output_int(testPin);
-			 	output_string(" mode ");
-				output_int(appMode);
-
-
-			}
-						
-			ES=1;
-			flag=0;
-
-		}
-		*/
 		if(appMode==DEBUG){
-			
-
 
 			unsigned char initValue;
 			unsigned char i; 
@@ -288,14 +240,14 @@ void main(void){
 					// t1=t4;
 					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
 					// waitKey();
-					// K = (t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
-					// t1=K*10;
-					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
-					// waitKey();
-					// b = (t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
-					// t1=b*10;
-					// displayInt(2,17,17,t1/100,(t1/10-t1/100*10),t1%10);
-					// waitKey();
+					K = (t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
+					t1=K*10;
+					displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					waitKey();
+					b = (t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
+					t1=b*10;
+					displayInt(2,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					waitKey();
 				}
 			}
 			// simpleFit();
@@ -304,35 +256,15 @@ void main(void){
 
 		if(appMode==START){
 			freq=countFrequency();
-			paperNum[0]=K*freq+b;
-			if(paperNum[0]<16){
-				displayInt(0,0,0,0,0,paperNum[0]);
-			}else{
-				displayInt(0,0,0,0,0,0);
-			}
-			waitKey();
+			freq=K*freq+b;
 
-			
+			displayInt(9,17,17,freq/100,(freq/10-TH0/100*10),freq%10);
+			waitKey();
 			appMode=NORMAL;
 		}
 		
 	}
 }
-void watchChange(){
-	
- 	if(input==0){
-		// sleep(10);
-		 //if(input==0){	   
-		  	watch=~watch;
-			while(!input); // wait for key 
-			// sleep(200);
-			watch=~watch;
-//			for(i=0;i<0;i++){
-//						watch=~watch;
-//			}
-	//	 }	
-	}
-}	
 
 int countFrequency(){
 	unsigned int last_beat=0,seconds=0;
@@ -347,7 +279,6 @@ int countFrequency(){
 
 	for(iteration=0;iteration<6;){
 		//一直监测翻转情况
-		watchChange();
 		// displayInt(iteration,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
 		// displayInt(iteration,17,17,beat/100,(beat/10-beat/100*10),beat%10);
 		//displayInt(iteration,16,17,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
@@ -358,28 +289,7 @@ int countFrequency(){
 				if (seconds%(1*period)==1){
 					// 设定计算的周期到达，增加轮数
 					iteration++;
-
-					cnt_sum= 256*round+TH0;
-					//(TH0<<8)+TL0;
-					
-					// displayInt(0,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
-					// waitKey();
-					// displayInt(0,17,17,TL0/100,(TL0/10-TL0/100*10),TL0%10);
-					// waitKey();
-					//freq=cnt_sum;//(double)cnt_sum/period;
-
-					// output_string("sum: ");
-					// output_int(cnt_sum);
-
-					// output_string("freq: ");
-					// output_int((int)freq);
-
-					// output_string("filter: ");
-					// output_int((int)getXn());
-
-					// output_string("round: ");
-					// output_int(round);
-				
+					cnt_sum= 256*round+TH0;				
 					predict();
 					update(cnt_sum);
 					
@@ -395,7 +305,7 @@ int countFrequency(){
 	}
 
 	cnt_sum=(int)getXn();
-	displayInt(iteration,16,16,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
+	displayInt(iteration,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
 	waitKey();
 	return (int)getXn();
 
