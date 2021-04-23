@@ -1,0 +1,30 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\cascara\Desktop\code\2021spring\paperCount\project\paperCnt.uvproj
+Project File Date:  04/23/2021
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+compiling utils.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_JUDGEKEY?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SIMPLEFIT?MAIN
+Program Size: data=122.0 xdata=0 code=2926
+creating hex file from ".\output\paperCnt"...
+".\output\paperCnt" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_JUDGEKEY?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SIMPLEFIT?MAIN
+Program Size: data=124.0 xdata=0 code=3011
+creating hex file from ".\output\paperCnt"...
+".\output\paperCnt" - 0 Error(s), 2 Warning(s).
