@@ -81,3 +81,4 @@ Examples/
 !*.axf
 !*.bin
 !*.hex
+output/paperCnt - 副本.hex
