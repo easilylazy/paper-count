@@ -253,8 +253,8 @@ void main(void){
 			for(initValue=2;initValue<10;initValue*=2){
 
 				displayInt(10,17,17,17,0,initValue);
-				// waitKey();
-				table[initValue]=4*initValue;//countFrequency();
+				waitKey();
+				table[initValue]=countFrequency();//4*initValue;//
 				paperNum[i]=initValue;
 				frequency[i]=table[initValue];
 				displayInt(10,1,1,1,1,1);
@@ -342,15 +342,15 @@ int countFrequency(){
 	unsigned int iteration;
 	//test_filter();	
 	init_filter();
-	displayInt(17,17,17,0,0,1);
-	waitKey();
+	// displayInt(17,17,17,0,0,1);
+	// waitKey();
 
 	for(iteration=0;iteration<6;){
 		//一直监测翻转情况
 		watchChange();
 		// displayInt(iteration,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
 		// displayInt(iteration,17,17,beat/100,(beat/10-beat/100*10),beat%10);
-		
+		//displayInt(iteration,16,17,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
 			if(last_beat!=beat&&beat%20==1){
 				
 				ES=0;
@@ -361,10 +361,11 @@ int countFrequency(){
 
 					cnt_sum= 256*round+TH0;
 					//(TH0<<8)+TL0;
-					displayInt(0,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
-					waitKey();
-					displayInt(0,17,17,TL0/100,(TL0/10-TL0/100*10),TL0%10);
-					waitKey();
+					
+					// displayInt(0,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
+					// waitKey();
+					// displayInt(0,17,17,TL0/100,(TL0/10-TL0/100*10),TL0%10);
+					// waitKey();
 					//freq=cnt_sum;//(double)cnt_sum/period;
 
 					// output_string("sum: ");
@@ -393,8 +394,9 @@ int countFrequency(){
 
 	}
 
-
-		
+	cnt_sum=(int)getXn();
+	displayInt(iteration,16,16,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
+	waitKey();
 	return (int)getXn();
 
 }
