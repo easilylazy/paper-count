@@ -2,12 +2,12 @@
 # include "include/utils.h"
 # include "include/kalman.h" 
 # define uint unsigned int
-# define MAX_DEBUG 1
-uchar flag,a,i;
+# define MAX_DEBUG 4
+uchar a,i;
 unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
 unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
-unsigned int table[11];	//存放不同次校正对应的数据
+// unsigned int table[11];	//存放不同次校正对应的数据
 unsigned int paperNum[MAX_DEBUG]; //存放校正时的纸张数
 unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
 //直接把555输入接入计数器T0(P3.4)
@@ -166,10 +166,9 @@ int countFrequency();
 void main(void){
 
 	int freq;
-	unsigned char key;
+	// unsigned char key;
 
 	init();
-	flag=0;
 	
 	while(1){
 
@@ -179,16 +178,16 @@ void main(void){
 		Display(an);  //数码管显示
 
 
-		//扫描按键
-		key=ReadKeys();
+		// //扫描按键
+		// key=ReadKeys();
 	
-		// add 通过不同的按键行使不同的功能
+		// // add 通过不同的按键行使不同的功能
 
-		if (key!=5){
-			//通过数码管显示按键
-			an[0]=key;
-			//JudgeKey(key);
-		}
+		// if (key!=5){
+		// 	//通过数码管显示按键
+		// 	an[0]=key;
+		// 	//JudgeKey(key);
+		// }
 		if(appMode==DEBUG){
 
 			unsigned char initValue;
@@ -206,11 +205,9 @@ void main(void){
 
 				displayInt(10,17,17,17,0,initValue);
 				waitKey();
-				table[initValue]=countFrequency();//4*initValue;//
+				// table[initValue]=countFrequency();//4*initValue;//
 				paperNum[i]=initValue;
-				frequency[i]=table[initValue];
-				displayInt(10,1,1,1,1,1);
-				// waitKey();
+				frequency[i]=countFrequency();//table[initValue];
 				i++;
 			}
 			// 进行拟合、获取各纸张对应函数
@@ -219,10 +216,10 @@ void main(void){
 			{
 				{  
 					
-					unsigned int t1=0, t2=0, t3=0, t4=0;
+					int t1=0, t2=0, t3=0, t4=0;
 					unsigned char totalSize=i;
 					
-					for(; i>0; i--)  
+					for(i=0; i<totalSize; i++)  
 					{  
 						t1 += frequency[i]*frequency[i];  
 						t2 += frequency[i];  
@@ -240,12 +237,13 @@ void main(void){
 					// t1=t4;
 					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
 					// waitKey();
-					K = (t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
-					t1=K*10;
+					K = (float)(t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
+					
+					b = (float)(t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
+					t1=K*100;
 					displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
 					waitKey();
-					b = (t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
-					t1=b*10;
+					t1=b*100;
 					displayInt(2,17,17,t1/100,(t1/10-t1/100*10),t1%10);
 					waitKey();
 				}
@@ -255,10 +253,18 @@ void main(void){
 		}
 
 		if(appMode==START){
+			float result;
 			freq=countFrequency();
-			freq=K*freq+b;
 
-			displayInt(9,17,17,freq/100,(freq/10-TH0/100*10),freq%10);
+			
+			displayInt(6,17,17,freq/100,(freq/10-freq/100*10),freq%10);
+			waitKey();
+
+			result=K*freq+b;
+
+			freq=(unsigned int)(result+0.5);
+
+			displayInt(9,17,17,freq/100,(freq/10-freq/100*10),freq%10);
 			waitKey();
 			appMode=NORMAL;
 		}
@@ -267,9 +273,10 @@ void main(void){
 }
 
 int countFrequency(){
-	unsigned int last_beat=0,seconds=0;
+	unsigned int last_beat=0;
+	// seconds=0;
 	unsigned int cnt_sum,ratio;//,foo=0X0001,bar=0X0002;
-	unsigned int period =2;
+	// unsigned int period =2;
 	//double freq;
 	unsigned int iteration=0;
 	//test_filter();	
@@ -295,11 +302,11 @@ int countFrequency(){
 			if(last_beat!=beat&&beat%2==1){
 				
 				// ES=0;
-				seconds++;
+				// seconds++;
 				last_beat=beat;
 
 				
-				if (seconds%(1*period)==1){
+				// if (seconds%==1){
 					// 设定计算的周期到达，增加轮数
 					iteration++;
 					cnt_sum= 256*round+TH0;				
@@ -307,7 +314,7 @@ int countFrequency(){
 					ratio=update(cnt_sum);
 
 
-					displayInt(iteration/100,(iteration/10-iteration/100*10),iteration%10,TH0/100,(TH0/10-TH0/100*10),TH0%10);
+					// displayInt(iteration/100,(iteration/10-iteration/100*10),iteration%10,TH0/100,(TH0/10-TH0/100*10),TH0%10);
 
 
 					// displayInt(1,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
@@ -330,8 +337,8 @@ int countFrequency(){
 					// reset
 					resetT0();
 					round=0;
-					seconds=0;
-				}
+					// seconds=0;
+				// }
 				// ES=1;
 				
 		}
@@ -376,8 +383,6 @@ void refresh() interrupt 4{
 
 	RI=0;
 	a=SBUF;
-	flag=1;
-		 
 }	
 
 void timer_50ms() interrupt 5{
