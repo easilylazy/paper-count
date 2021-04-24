@@ -275,7 +275,7 @@ void main(void){
 int countFrequency(){
 	unsigned int last_beat=0;
 	// seconds=0;
-	unsigned int cnt_sum,ratio;//,foo=0X0001,bar=0X0002;
+	unsigned int cnt_sum,ratio,stableCnt;//,foo=0X0001,bar=0X0002;
 	// unsigned int period =2;
 	//double freq;
 	unsigned int iteration=0;
@@ -298,7 +298,10 @@ int countFrequency(){
 
 		//一直监测翻转情况
 		// displayInt(iteration,17,17,beat/100,(beat/10-beat/100*10),beat%10);
-		//displayInt(iteration,16,17,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
+		displayInt(iteration,16,17,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
+
+
+
 			if(last_beat!=beat&&beat%2==1){
 				
 				// ES=0;
@@ -306,7 +309,6 @@ int countFrequency(){
 				last_beat=beat;
 
 				
-				// if (seconds%==1){
 					// 设定计算的周期到达，增加轮数
 					iteration++;
 					cnt_sum= 256*round+TH0;				
@@ -331,7 +333,13 @@ int countFrequency(){
 
 					if(ratio<5){
 						//与上一次的错误率减小到一定范围
-						break;	
+						//累积到一定次数，则退出
+						stableCnt++;
+						if(stableCnt>20){
+							break;
+						}
+					}else{
+						stableCnt=0;
 					}
 					
 					// reset
