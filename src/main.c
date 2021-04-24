@@ -281,16 +281,15 @@ int countFrequency(){
 	// for(iteration=0;iteration<6;){
 	while(1){
 
-		if(iteration>100){
+		if(iteration>999){
 			//超时FFF
-			displayInt(15,15,15,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
+			// displayInt(15,15,15,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
 			waitKey();
 			break;
 
 		}
 
 		//一直监测翻转情况
-		// displayInt(iteration,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
 		// displayInt(iteration,17,17,beat/100,(beat/10-beat/100*10),beat%10);
 		//displayInt(iteration,16,17,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
 			if(last_beat!=beat&&beat%2==1){
@@ -307,16 +306,20 @@ int countFrequency(){
 					predict();
 					ratio=update(cnt_sum);
 
-					displayInt(1,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
-					waitKey();
 
-					cnt_sum=ratio;	
-					displayInt(2,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
-					waitKey();
+					displayInt(iteration/100,(iteration/10-iteration/100*10),iteration%10,TH0/100,(TH0/10-TH0/100*10),TH0%10);
 
-					cnt_sum=(int)getXn();	
-					displayInt(3,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
-					waitKey();
+
+					// displayInt(1,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
+					// waitKey();
+
+					// cnt_sum=ratio;	
+					// displayInt(2,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
+					// waitKey();
+
+					// cnt_sum=(int)getXn();	
+					// displayInt(3,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
+					// waitKey();
 
 
 					if(ratio<5){
