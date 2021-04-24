@@ -2,7 +2,7 @@
 # include "include/utils.h"
 # include "include/kalman.h" 
 # define uint unsigned int
-# define MAX_DEBUG 3
+# define MAX_DEBUG 1
 uchar flag,a,i;
 unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
@@ -74,22 +74,22 @@ void waitKey(){
 		key=ReadKeys();
 	}
 }
-void JudgeKey(unsigned char key){
-	switch (key)
-	{
-	case 0:
-		an[1]=0;
-		/* code */
-		break;
-	case 1:
-		an[1]=1;
-		break;
+// void JudgeKey(unsigned char key){
+// 	switch (key)
+// 	{
+// 	case 0:
+// 		an[1]=0;
+// 		/* code */
+// 		break;
+// 	case 1:
+// 		an[1]=1;
+// 		break;
 	
-	default:
-		//an[1]=8;
-		break;
-	}
-}
+// 	default:
+// 		//an[1]=8;
+// 		break;
+// 	}
+// }
 void displayDebug(){
  	an[0]=17;
  	an[1]=17;
@@ -149,17 +149,17 @@ int countFrequency();
 
 
 
-void simpleFit();
-void simpleFit(){
-    unsigned char i;
-    for(i=6;i<10;i+=4){
-        table[i]=(table[i+2]+table[i-2])/2;
-    }
+// void simpleFit();
+// void simpleFit(){
+//     unsigned char i;
+//     for(i=6;i<10;i+=4){
+//         table[i]=(table[i+2]+table[i-2])/2;
+//     }
 
-    for(i=1;i<10;i+=2){
-        table[i]=(table[i+1]+table[i-1])/2;
-    }
-}
+//     for(i=1;i<10;i+=2){
+//         table[i]=(table[i+1]+table[i-1])/2;
+//     }
+// }
 
 
 
@@ -194,9 +194,9 @@ void main(void){
 			unsigned char initValue;
 			unsigned char i; 
 		
-			displayInt(0,0,0,0,0,0);
+			// displayInt(0,0,0,0,0,0);
 			//sleep(2000);	
-			waitKey();
+			// waitKey();
 				// table[2]=7;
 				// table[4]=11;
 				// table[8]=16;
@@ -268,44 +268,79 @@ void main(void){
 
 int countFrequency(){
 	unsigned int last_beat=0,seconds=0;
-	unsigned int cnt_sum;//,foo=0X0001,bar=0X0002;
+	unsigned int cnt_sum,ratio;//,foo=0X0001,bar=0X0002;
 	unsigned int period =2;
 	//double freq;
-	unsigned int iteration;
+	unsigned int iteration=0;
 	//test_filter();	
 	init_filter();
+	beat=0;
 	// displayInt(17,17,17,0,0,1);
 	// waitKey();
 
-	for(iteration=0;iteration<6;){
+	// for(iteration=0;iteration<6;){
+	while(1){
+
+		if(iteration>100){
+			//超时FFF
+			displayInt(15,15,15,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
+			waitKey();
+			break;
+
+		}
+
 		//一直监测翻转情况
 		// displayInt(iteration,17,17,TH0/100,(TH0/10-TH0/100*10),TH0%10);
 		// displayInt(iteration,17,17,beat/100,(beat/10-beat/100*10),beat%10);
 		//displayInt(iteration,16,17,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
-			if(last_beat!=beat&&beat%20==1){
+			if(last_beat!=beat&&beat%2==1){
 				
-				ES=0;
+				// ES=0;
+				seconds++;
+				last_beat=beat;
+
 				
 				if (seconds%(1*period)==1){
 					// 设定计算的周期到达，增加轮数
 					iteration++;
 					cnt_sum= 256*round+TH0;				
 					predict();
-					update(cnt_sum);
+					ratio=update(cnt_sum);
+
+					displayInt(1,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
+					waitKey();
+
+					cnt_sum=ratio;	
+					displayInt(2,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
+					waitKey();
+
+					cnt_sum=(int)getXn();	
+					displayInt(3,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
+					waitKey();
+
+
+					if(ratio<5){
+						//与上一次的错误率减小到一定范围
+						break;	
+					}
 					
 					// reset
 					resetT0();
 					round=0;
+					seconds=0;
 				}
-				ES=1;
-				seconds++;
-				last_beat=beat;
+				// ES=1;
+				
 		}
+
+		
+
+		
 
 	}
 
 	cnt_sum=(int)getXn();
-	displayInt(iteration,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
+	displayInt(8,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
 	waitKey();
 	return (int)getXn();
 
