@@ -147,22 +147,6 @@ void init(){
 // 测量频率
 int countFrequency();
 
-
-
-// void simpleFit();
-// void simpleFit(){
-//     unsigned char i;
-//     for(i=6;i<10;i+=4){
-//         table[i]=(table[i+2]+table[i-2])/2;
-//     }
-
-//     for(i=1;i<10;i+=2){
-//         table[i]=(table[i+1]+table[i-1])/2;
-//     }
-// }
-
-
-
 void main(void){
 
 	int freq;
@@ -171,35 +155,14 @@ void main(void){
 	init();
 	
 	while(1){
-
-
-
 		//led
 		Display(an);  //数码管显示
 
-
-		// //扫描按键
-		// key=ReadKeys();
-	
-		// // add 通过不同的按键行使不同的功能
-
-		// if (key!=5){
-		// 	//通过数码管显示按键
-		// 	an[0]=key;
-		// 	//JudgeKey(key);
-		// }
 		if(appMode==DEBUG){
 
 			unsigned char initValue;
 			unsigned char i; 
 		
-			// displayInt(0,0,0,0,0,0);
-			//sleep(2000);	
-			// waitKey();
-				// table[2]=7;
-				// table[4]=11;
-				// table[8]=16;
-				// table[10]=18;
 			i=0;
 			for(initValue=2;initValue<10;initValue*=2){
 
@@ -226,17 +189,6 @@ void main(void){
 						t3 += frequency[i]*paperNum[i];  
 						t4 += paperNum[i];  
 					}  
-					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
-					// waitKey();
-					// t1=t2;
-					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
-					// waitKey();
-					// t1=t3;
-					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
-					// waitKey();
-					// t1=t4;
-					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
-					// waitKey();
 					K = (float)(t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
 					
 					b = (float)(t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
@@ -290,18 +242,12 @@ void main(void){
 
 int countFrequency(){
 	unsigned int last_beat=0;
-	// seconds=0;
 	unsigned int cnt_sum,ratio,stableCnt;//,foo=0X0001,bar=0X0002;
-	// unsigned int period =2;
-	//double freq;
+
 	unsigned int iteration=0;
 	//test_filter();	
 	init_filter();
 	beat=0;
-	// displayInt(17,17,17,0,0,1);
-	// waitKey();
-
-	// for(iteration=0;iteration<6;){
 	while(1){
 
 		if(iteration>999){
@@ -330,22 +276,6 @@ int countFrequency(){
 					cnt_sum= 256*round+TH0;				
 					predict();
 					ratio=update(cnt_sum);
-
-
-					// displayInt(iteration/100,(iteration/10-iteration/100*10),iteration%10,TH0/100,(TH0/10-TH0/100*10),TH0%10);
-
-
-					// displayInt(1,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
-					// waitKey();
-
-					// cnt_sum=ratio;	
-					// displayInt(2,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
-					// waitKey();
-
-					// cnt_sum=(int)getXn();	
-					// displayInt(3,16,16,cnt_sum/100,(cnt_sum/10-cnt_sum/100*10),cnt_sum%10);
-					// waitKey();
-
 
 					if(ratio<5){
 						//与上一次的错误率减小到一定范围
