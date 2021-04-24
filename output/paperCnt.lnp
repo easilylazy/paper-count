@@ -1,6 +1,0 @@
-".\output\STARTUP.obj",
-".\output\main.obj",
-".\output\utils.obj",
-".\output\kalman.obj" 
-TO ".\output\paperCnt" 
-PRINT(".\paperCnt.m51") RAMSIZE(256) 
