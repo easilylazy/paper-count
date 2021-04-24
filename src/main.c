@@ -240,21 +240,35 @@ void main(void){
 					K = (float)(t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
 					
 					b = (float)(t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
+					appMode=NORMAL;
+
+					//display
 					t1=K*100;
 					displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
 					waitKey();
-					t1=b*100;
-					displayInt(2,17,17,t1/100,(t1/10-t1/100*10),t1%10);
-					waitKey();
+					if(b<0){
+						t1=-b*100;
+						displayInt(2,17,15,t1/100,(t1/10-t1/100*10),t1%10);
+					}else{
+						t1=-b*100;
+						displayInt(2,17,15,t1/100,(t1/10-t1/100*10),t1%10);
+						waitKey();
+
+					}
 				}
 			}
+			displayInt(0,0,0,0,0,0);
+			waitKey();
 			// simpleFit();
-			appMode=NORMAL;
+
 		}
 
 		if(appMode==START){
 			float result;
 			freq=countFrequency();
+
+			appMode=NORMAL;
+
 
 			
 			displayInt(6,17,17,freq/100,(freq/10-freq/100*10),freq%10);
@@ -266,7 +280,9 @@ void main(void){
 
 			displayInt(9,17,17,freq/100,(freq/10-freq/100*10),freq%10);
 			waitKey();
-			appMode=NORMAL;
+
+			displayInt(0,0,0,0,0,0);
+			waitKey();
 		}
 		
 	}
@@ -302,7 +318,7 @@ int countFrequency(){
 
 
 
-			if(last_beat!=beat&&beat%2==1){
+			if(last_beat!=beat&&beat%5==1){
 				
 				// ES=0;
 				// seconds++;
