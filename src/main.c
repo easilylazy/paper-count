@@ -2,14 +2,17 @@
 # include "include/utils.h"
 # include "include/kalman.h" 
 # define uint unsigned int
-# define MAX_DEBUG 5
+# define MAX_DEBUG 7
 uchar a,i;
 unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
 unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
 // unsigned int table[11];	//存放不同次校正对应的数据
-unsigned char code paperNums[MAX_DEBUG]={2,4,8,16,20}; //存放校正时的纸张数
-unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
+unsigned char code paperNums[MAX_DEBUG]={2,4,8,12,14,16,18}; //存放校正时的纸张数
+unsigned int frequency[MAX_DEBUG];//={16,26,39,46,50,55,59};//存放校正时对应的频率值
+// 16,26,41,50,54,57,59
+
+// unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
 //直接把555输入接入计数器T0(P3.4)
 
 sbit CS0=P2^7;	//74LS138锁存器使能端
@@ -27,7 +30,8 @@ unsigned char code seg[18]={0xc0,0xf9,0xa4,0xb0,
 					   };
 
 unsigned char an[6]={2,0,2,1,4,3};
-float K,b; // paperNum=k*frequency+b
+float K[2],b[2]; // paperNum=k*frequency+b
+unsigned char split;
 void Display(unsigned char *ptemp)
 {
 	unsigned char i,j;
@@ -143,7 +147,21 @@ void init(){
 
 }
 
-
+void updateFit(unsigned char group,unsigned char rangeMin,unsigned char rangeMax){
+	int t1=0, t2=0, t3=0, t4=0;
+	unsigned char i;
+	unsigned char totalSize=rangeMax-rangeMin;
+	for(i=rangeMin; i<rangeMax; i++)  
+	{  
+		t1 += frequency[i]*frequency[i];  
+		t2 += frequency[i];  
+		t3 += frequency[i]*paperNums[i];  
+		t4 += paperNums[i];  
+	}  
+	K[group] = (float)(t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
+	
+	b[group] = (float)(t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
+}
 
 // 测量频率
 int countFrequency();
@@ -176,34 +194,26 @@ void main(void){
 			{
 				{  
 					
-					int t1=0, t2=0, t3=0, t4=0;
-					unsigned char totalSize=i;
 					
-					for(i=0; i<totalSize; i++)  
-					{  
-						t1 += frequency[i]*frequency[i];  
-						t2 += frequency[i];  
-						t3 += frequency[i]*paperNums[i];  
-						t4 += paperNums[i];  
-					}  
-					K = (float)(t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
-					
-					b = (float)(t1*t4 - t2*t3) / (t1*totalSize - t2*t2);        // 求得β2  
+					updateFit(0,0,3);
+					updateFit(1,2,MAX_DEBUG);
+
+					split=frequency[2];
 					appMode=NORMAL;
 
-					//display
-					t1=K*100;
-					displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
-					waitKey();
-					if(b<0){
-						t1=-b*100;
-						displayInt(2,17,15,t1/100,(t1/10-t1/100*10),t1%10);
-					}else{
-						t1=-b*100;
-						displayInt(2,17,15,t1/100,(t1/10-t1/100*10),t1%10);
-						waitKey();
+					// //display
+					// t1=K[1]*100;
+					// displayInt(1,17,17,t1/100,(t1/10-t1/100*10),t1%10);
+					// waitKey();
+					// if(b[1]<0){
+					// 	t1=-b[1]*100;
+					// 	displayInt(2,17,15,t1/100,(t1/10-t1/100*10),t1%10);
+					// }else{
+					// 	t1=-b[1]*100;
+					// 	displayInt(2,17,15,t1/100,(t1/10-t1/100*10),t1%10);
+					// 	waitKey();
 
-					}
+					// }
 				}
 			}
 			displayInt(0,0,0,0,0,0);
@@ -220,10 +230,17 @@ void main(void){
 
 
 			
-			displayInt(6,17,17,freq/100,(freq/10-freq/100*10),freq%10);
-			waitKey();
+			// displayInt(6,17,17,freq/100,(freq/10-freq/100*10),freq%10);
+			// waitKey();
 
-			result=K*freq+b;
+
+			if(freq>=split){
+			   result=K[1]*freq+b[1];
+			}else{
+			   result=K[0]*freq+b[0];
+			}
+
+			
 
 			freq=(unsigned int)(result+0.5);
 
@@ -270,7 +287,10 @@ int countFrequency(){
 				
 					// 设定计算的周期到达，增加轮数
 					iteration++;
-					cnt_sum= 256*round+TH0;				
+					cnt_sum= 256*round+TH0;
+					if (TL0>128){
+						cnt_sum++;
+					}				
 					predict();
 					ratio=update(cnt_sum);
 
