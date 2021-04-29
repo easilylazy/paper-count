@@ -2,18 +2,19 @@
 # include "include/utils.h"
 # include "include/kalman.h" 
 # define uint unsigned int
-# define MAX_DEBUG 4
+# define MAX_DEBUG 5
 uchar a,i;
 unsigned int beat;		//计时器T2溢出次数，当前为50ms一次
 
 unsigned int round; 	 //计数器T0溢出次数，每个周期重新计数
 // unsigned int table[11];	//存放不同次校正对应的数据
-unsigned int paperNum[MAX_DEBUG]; //存放校正时的纸张数
+unsigned char code paperNums[MAX_DEBUG]={2,4,8,16,20}; //存放校正时的纸张数
 unsigned int frequency[MAX_DEBUG];//存放校正时对应的频率值
 //直接把555输入接入计数器T0(P3.4)
 
 sbit CS0=P2^7;	//74LS138锁存器使能端
 sbit KEY1=P2^4;		//确定按键
+sbit beep=P1^7;//蜂鸣器
 // sbit KEY2=P2^5;
 // sbit KEY3=P2^6;
 // sbit KEY4=P2^7;
@@ -153,6 +154,7 @@ void main(void){
 	// unsigned char key;
 
 	init();
+	beep=1;
 	
 	while(1){
 		//led
@@ -160,18 +162,13 @@ void main(void){
 
 		if(appMode==DEBUG){
 
-			unsigned char initValue;
 			unsigned char i; 
 		
-			i=0;
-			for(initValue=2;initValue<10;initValue*=2){
-
-				displayInt(10,17,17,17,0,initValue);
+			for (i = 0; i < MAX_DEBUG; i++)			{
+				
+				displayInt(10,17,17,17,paperNums[i]/10,paperNums[i]%10);
 				waitKey();
-				// table[initValue]=countFrequency();//4*initValue;//
-				paperNum[i]=initValue;
-				frequency[i]=countFrequency();//table[initValue];
-				i++;
+				frequency[i]=countFrequency();
 			}
 			// 进行拟合、获取各纸张对应函数
 			waitKey();
@@ -186,8 +183,8 @@ void main(void){
 					{  
 						t1 += frequency[i]*frequency[i];  
 						t2 += frequency[i];  
-						t3 += frequency[i]*paperNum[i];  
-						t4 += paperNum[i];  
+						t3 += frequency[i]*paperNums[i];  
+						t4 += paperNums[i];  
 					}  
 					K = (float)(t3*totalSize - t2*t4) / (t1*totalSize - t2*t2);  // 求得β1  
 					
@@ -250,7 +247,7 @@ int countFrequency(){
 	beat=0;
 	while(1){
 
-		if(iteration>999){
+		if(iteration>299){
 			//超时FFF
 			// displayInt(15,15,15,cnt_sum/100,(cnt_sum/10-TH0/100*10),cnt_sum%10);
 			waitKey();
@@ -281,7 +278,7 @@ int countFrequency(){
 						//与上一次的错误率减小到一定范围
 						//累积到一定次数，则退出
 						stableCnt++;
-						if(stableCnt>20){
+						if(stableCnt>10){
 							break;
 						}
 					}else{
